@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Sanatan AI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Sanatan AI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
