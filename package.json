@@ -1,0 +1,32 @@
+{
+  "name": "sanatan-ai",
+  "version": "2.2.5",
+  "description": "Sanatan AI, a powerful AI powered assistant",
+  "main": "electron/build.js",
+  "author": "Shivam Sharma",
+  "license": "UNLICENSED",
+  "repository": "https://github.com/ShivamSharma999/Sanatan-AI",
+  "scripts": {
+    "dev": "node ./api/index.js",
+    "start": "node ./api/index.js",
+    "build:app": "build",
+    "test": "electron .",
+    "build": "electron-builder",
+    "publish": "electron-builder --publish always"
+  },
+  "dependencies": {
+    "@google/genai": "^1.15.0",
+    "@supabase/supabase-js": "^2.95.3",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.1.0",
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.6",
+    "electron-updater": "^6.8.3"
+  },
+  "devDependencies": {
+    "electron": "^40.6.1",
+    "electron-builder": "^26.8.1"
+  }
+}
+

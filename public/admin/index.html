@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanatan AI - Admin Panel</title>
+    <style>
+        :root {
+            --bg-color: #0f0f0f;
+            --text-color: #ededed;
+            --accent-color: #22aeff;
+            --secondary-bg: #252525;
+            --border-color: #3a3a3a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Login Screen */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-box {
+            background: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #2a2a2f;
+            border: 1px solid #3a3a3f;
+            color: white;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--secondary-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .user-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .user-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .user-item:hover, .user-item.active {
+            background: rgba(255, 87, 34, 0.1);
+        }
+
+        .user-id {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .user-preview {
+            font-size: 0.8rem;
+            color: #888;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-container {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 12px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: var(--accent-color);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.model {
+            align-self: flex-start;
+            background: #2a2a2f;
+            border-bottom-left-radius: 2px;
+        }
+
+        .edit-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.3);
+            border: none;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            display: none;
+        }
+
+        .message:hover .edit-btn {
+            display: block;
+        }
+
+        .controls {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--secondary-bg);
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="login-box">
+        <h2>Admin Authenticate</h2>
+        <input type="password" id="password" placeholder="Enter Login Password">
+        <button onclick="login()">Login</button>
+        <p id="error-msg" style="color: red; display: none;">Invalid Password</p>
+    </div>
+</div>
+
+<div class="sidebar">
+    <div class="sidebar-header">Sanatan Users</div>
+    <div class="user-list" id="user-list">
+        <!-- Users will be loaded here -->
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="chat-header">
+        <span id="active-user-title">Select a user</span>
+        <button onclick="saveChanges()" id="save-btn" style="display: none;">Save Changes</button>
+    </div>
+    <div class="chat-container" id="chat-container">
+        <!-- Messages -->
+    </div>
+</div>
+
+<script>
+    let currentSessionId = null;
+    let currentHistory = [];
+    let authToken = localStorage.getItem("admin_token");
+
+    if (authToken) {
+        document.getElementById("login-screen").style.display = "none";
+        loadUsers();
+    }
+
+    async function login() {
+        const password = document.getElementById("password").value;
+        try {
+            const res = await fetch(`/admin/auth`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password })
+            });
+            const data = await res.json();
+            if (data.success) {
+                authToken = password; // Should use token in real app, but using password as naive token per plan
+                localStorage.setItem("admin_token", password);
+                document.getElementById("login-screen").style.display = "none";
+                loadUsers();
+            } else {
+                document.getElementById("error-msg").style.display = "block";
+            }
+        } catch (e) {
+            alert("Connection error");
+        }
+    }
+
+    async function loadUsers() {
+        try {
+            const res = await fetch(`/admin/users`, {
+                headers: { "Authorization": authToken }
+            });
+            if (res.status === 401) {
+                logout();
+                return;
+            }
+            const users = await res.json();
+            const list = document.getElementById("user-list");
+            list.innerHTML = "";
+            users.forEach(u => {
+                const div = document.createElement("div");
+                div.className = "user-item";
+                div.onclick = () => loadChat(u.id);
+                div.innerHTML = `
+                    <div class="user-id">ID: ${u.id}</div>
+                    <div class="user-preview">${u.preview}</div>
+                `;
+                list.appendChild(div);
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function loadChat(sessionId) {
+        currentSessionId = sessionId;
+        document.getElementById("active-user-title").innerText = "Session: " + sessionId;
+        document.getElementById("save-btn").style.display = "inline-block";
+        
+        try {
+            const res = await fetch(`/admin/chats/${sessionId}`, {
+                headers: { "Authorization": authToken }
+            });
+            currentHistory = await res.json();
+            renderChat();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function renderChat() {
+        const container = document.getElementById("chat-container");
+        container.innerHTML = "";
+        currentHistory.forEach((msg, index) => {
+            const div = document.createElement("div");
+            div.className = `message ${msg.role}`;
+            
+            const text = msg.parts.map(p => p.text).join("");
+            div.innerText = text;
+
+            const editBtn = document.createElement("button");
+            editBtn.className = "edit-btn";
+            editBtn.innerText = "Edit";
+            editBtn.onclick = (e) => {
+                e.stopPropagation();
+                editMessage(index);
+            };
+
+            div.appendChild(editBtn);
+            container.appendChild(div);
+        });
+    }
+
+    function editMessage(index) {
+        const newText = prompt("Edit message:", currentHistory[index].parts.map(p => p.text).join(""));
+        if (newText !== null) {
+            currentHistory[index].parts = [{ text: newText }];
+            renderChat();
+        }
+    }
+
+    async function saveChanges() {
+        if (!currentSessionId) return;
+        try {
+            await fetch(`/admin/chats/${currentSessionId}`, {
+                method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": authToken
+                },
+                body: JSON.stringify({ history: currentHistory })
+            });
+            alert("Saved successfully!");
+        } catch (e) {
+            alert("Failed to save");
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("admin_token");
+        location.reload();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+{
+    "appId": "com.sanatanai.app",
+    "productName": "Sanatan AI",
+    "executableName": "sanatanai",
+    "$schema": "./other/scheme.json",
+    "files": [
+      "**/*",
+      "Resources/**/*",
+      "scripts/**/*",
+      "styles/**/*",
+      "icons/**",
+      "offline/**"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "ShivamSharma999",
+        "repo": "Sanatan-AI",
+        "releaseType": "release",
+        "private": true
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "favicon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "shortcutName": "Sanatan AI",
+      "deleteAppDataOnUninstall": true,
+      "artifactName": "Sanatan-AI.${ext}"
+    }
+}

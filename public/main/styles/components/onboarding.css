@@ -1,0 +1,76 @@
+/* --- Credit - Shivam Sharma --- */
+.welcome-step {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.welcome-step.active-step {
+    display: flex;
+}
+
+.terms-box {
+    height: 150px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    overflow-y: auto;
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.terms-box ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.terms-box li {
+    margin-bottom: 8px;
+}
+
+#email-step .input-group {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#email-step .modern-input {
+    width: 100%;
+    text-align: center;
+}
+
+#otp-group {
+    margin-top: 15px;
+}
+
+#verification-status {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    min-height: 20px;
+}
+
+#verification-status.success {
+    color: var(--success-color);
+}
+
+#verification-status.error {
+    color: var(--error-color);
+}
+
+#customize-step .input-group {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#customize-step label {
+    font-size: 1rem;
+    color: var(--subheading-color);
+}

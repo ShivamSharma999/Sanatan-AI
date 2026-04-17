@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="The one of the best AI Assistants in the world, serving you about Sanatan Dharma, SANATAN AI"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:title" content="Sanatan AI" />
+    <meta name="theme-color" content="#000" />
+    <meta name="icon" content="favicon.ico" />
+    <meta name="google-site-verification" content="Dm5OMog15ZMCDGVpyuRpkB7H0pgDqb60mUO_Nx3wcek" />
+    <meta
+      property="og:image"
+      content="https://sanatan-ai.vercel.app/favicon.ico"
+    />
+    <meta property="og:url" content="https://sanatan-ai.vercel.app/" />
+    <title>SANATAN AI</title>
+    <link rel="stylesheet" href="styles/components/animations.css" />
+    <link rel="stylesheet" href="styles/base/extra.css" />
+    <link rel="stylesheet" href="styles/base/modern-effects.css" />
+    <link rel="stylesheet" href="styles/base/modern-ui.css" />
+    <link rel="stylesheet" href="styles/components/onboarding.css" />
+    <link rel="stylesheet" href="styles/base/media.css" />
+    <link rel="stylesheet" href="styles/base/main.css" />
+    <link rel="stylesheet" href="styles/base/modern-effects.css" />
+    <link rel="icon" type="image/ico" href="favicon.ico" />
+    <link rel="stylesheet" href="styles/components/menu.css" />
+    <link rel="stylesheet" href="styles/vendor/highlight.css" />
+    <link
+      rel="preload"
+      href="./scripts/lib/katex/fonts/KaTeX_AMS-Regular.ttf"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./scripts/lib/katex/katex.css" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="./scripts/lib/mermaid.min.js"></script>
+  </head>
+
+  <body class="center-flex">
+    <button class="menuopen center-flex sanatan-symbol">dehaze</button>
+    <button class="stopRespond btn-gradient">
+      Stop Responding
+      <code class="sanatan-symbol">stop_circle</code>
+    </button>
+
+    <div class="menuBar makeSmall">
+      <div class="chat-i col center-flex actions">
+        <div id="chat-list" class="chat-list col">
+          <!-- Chat history items will be added here dynamically -->
+        </div>
+      </div>
+      <br />
+
+      <div class="footer col center-flex actions">
+        <div class="profile-section center-flex" data-label="Customize your Sanatan AI experience">
+          <img
+            src="Resources/images/User.png"
+            alt="Profile"
+            class="profile-img"
+            id="user-profile-img"
+          />
+          <div class="profile-info">
+            <span class="user-name" id="user-name-display">Guest</span>
+          </div>
+        </div>
+        <button class="action center-flex" data-label="Search and Explore Bhagwat Geeta Shloks">
+          <code class="sanatan-symbol">book</code> <span>Bhagvat Gita</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="center-flex col loading">
+      <div class="loading-spinner"></div>
+      <br />
+      Loading...
+    </div>
+
+    <dialog class="fullscreen"></dialog>
+
+    <div align="center" class="welcome col animated-gradient center-flex">
+      <div class="welcome-content glass-dark">
+        <div id="terms-step" class="welcome-step col">
+          <h1 class="logoTxt welcome-title animated-gradient-text">
+            Sanatan AI
+          </h1>
+          <h2 class="welcome-subtext">Terms of Service</h2>
+          <div class="terms-box">
+            <p>
+              By using Sanatan AI, you agree to the following terms and
+              conditions:
+            </p>
+            <ul>
+              <li>
+                This AI is for informational and educational purposes related to
+                Sanatan Dharma.
+              </li>
+              <li>
+                The information provided may not always be 100% accurate. Please
+                consult with qualified spiritual teachers for profound matters.
+              </li>
+              <li>
+                Do not use this service for any illegal or malicious activities.
+              </li>
+              <li><b>Sanatan AI's Responses</b> are powered by Gemini</li>
+              <li>
+                Animated Icons are from
+                <a href="https://lordicon.com">LordIcon</a>
+              </li>
+              <li>
+                Your conversations may be used anonymously to improve the AI
+                model.
+              </li>
+              <li>We reserve the right to change these terms at any time.</li>
+            </ul>
+          </div>
+          <button id="agree-btn" class="welcomeButton">Agree & Proceed</button>
+        </div>
+
+        <!-- Step 2: Google Login -->
+        <div id="email-step" class="welcome-step col">
+          <h1 class="welcome-title animated-gradient-text">Welcome Seeker</h1>
+          <h2 class="welcome-subtext">
+            Login with Google to begin your journey.
+          </h2>
+          <div class="login-container center-flex">
+            <div id="google-login-btn"></div>
+          </div>
+          <p id="verification-status"></p>
+        </div>
+
+        <!-- Step 3: Customization -->
+        <div id="customize-step" class="welcome-step col">
+          <div class="imgWarpper center-flex float-animation">
+            <img
+              src="Resources/images/logo.png"
+              alt="Sanatan Logo"
+              class="logo-glow"
+            />
+          </div>
+          <h1 class="welcome-text fromTop animated-gradient-text">
+            Almost There!
+          </h1>
+          <h2 class="welcome-subtext fromLeft">Tell about you.</h2>
+          <div class="input-group col customize-group">
+            <label for="welcome-name-input">Enter your Name:</label>
+            <input
+              type="text"
+              id="welcome-name-input"
+              class="modern-input"
+              placeholder="e.g., Arjuna"
+            />
+          </div>
+          <button
+            id="finish-setup-btn"
+            class="welcomeButton center-flex pulse-animation">
+            <span>Start AI</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+
+        <div class="background-particles"></div>
+      </div>
+    </div>
+    <script type="module" src="scripts/core/app.js" defer></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-06JFXN6E8F"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-06JFXN6E8F");
+    </script>
+    
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+      if(!(await navigator.serviceWorker.getRegistration('sanatan-ai-v3') || window.electronAPI)) {
+        navigator.serviceWorker.register('./scripts/components/service-worker.js')
+          .then(reg => {
+            console.log('Service Worker: Registered (Scope: ' + reg.scope + ')');
+            // If there's an waiting worker, skip waiting to activate new version
+            if (reg.waiting) {
+              reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+          })
+          .catch(err => console.log('Service Worker: Error: ' + err));
+        }
+      });
+    }
+    </script>
+</body>
+</html>

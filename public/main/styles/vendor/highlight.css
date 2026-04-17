@@ -1,0 +1,271 @@
+/*
+ Highlight.js Library.
+ This library belongs to highlight.js team but is kept and edited to meet requirements of Sanatan AI
+ Edited version for Sanatan AI.
+ The code may be breaking rules mentioned in license,
+ Owner will not be responsible for this.
+*/
+
+:root {
+  --color-background: #22272e;
+  --color-foreground: #adbac7;
+  --color-keyword: #f47067;
+  --color-entity: #dcbdfb;
+  --color-constant: #6cb6ff;
+  --color-string: #96d0ff;
+  --color-variable: #f69d50;
+  --color-comment: #768390;
+  --color-entity-tag: #8ddb8c;
+  --color-import: #adbac7;
+  --color-heading: #316dca;
+  --color-list: #eac55f;
+  --color-italic: #adbac7;
+  --color-bold: #adbac7;
+  --color-inserted: #b4f1b4;
+  --color-inserted-bg: #1b4721;
+  --color-deleted: #ffd8d3;
+  --color-deleted-bg: #78191b;
+}
+
+.light_mode {
+  --color-background: #fff;
+  --color-foreground: #24292e;
+  --color-keyword: #d73a49;
+  --color-entity: #6f42c1;
+  --color-constant: #005cc5;
+  --color-string: #032f62;
+  --color-variable: #e36209;
+  --color-comment: #6a737d;
+  --color-entity-tag: #22863a;
+  --color-import: #24292e;
+  --color-heading: #005cc5;
+  --color-list: #735c0f;
+  --color-italic: #24292e;
+  --color-bold: #24292e;
+  --color-inserted: #22863a;
+  --color-inserted-bg: #f0fff4;
+  --color-deleted: #b31d28;
+  --color-deleted-bg: #ffeef0;
+}
+
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: var(--text-color);
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  font-weight: normal;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  margin: 0;
+  overflow-x: auto;
+  font-size: 14px;
+  white-space: pre;
+  text-align: left;
+}
+
+pre[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+code[class*="language-"] ::selection {
+  text-shadow: none;
+  background: var(--selection-color);
+}
+
+
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable.language_ {
+  color: var(--color-keyword);
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+  color: var(--color-entity);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-operator,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+  color: var(--color-constant);
+}
+
+.hljs-regexp,
+.hljs-string,
+.hljs-meta .hljs-string {
+  color: var(--color-string);
+}
+
+.hljs-built_in,
+.hljs-symbol {
+  color: var(--color-variable);
+}
+
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+  color: var(--color-comment);
+}
+
+.hljs-name,
+.hljs-quote,
+.hljs-selector-tag,
+.hljs-selector-pseudo {
+  color: var(--color-entity-tag);
+}
+
+.hljs-subst {
+  color: var(--color-import);
+}
+
+.hljs-section {
+  color: var(--color-heading);
+  font-weight: bold;
+}
+
+.hljs-bullet {
+  color: var(--color-list);
+}
+
+.hljs-emphasis {
+  color: var(--color-italic);
+  font-style: italic;
+}
+
+.hljs-strong {
+  color: var(--color-bold);
+  font-weight: bold;
+}
+
+.hljs-addition {
+  color: var(--color-inserted);
+  background-color: var(--color-inserted-bg);
+}
+
+.hljs-deletion {
+  color: var(--color-deleted);
+  background-color: var(--color-deleted-bg);
+}
+
+.rotate:hover {
+  animation: rotate .5s ease;
+}
+
+.code-container {
+  width: 80%;
+  max-width: 800px;
+  border-radius: 8px;
+  overflow: hidden;
+  /* Important for the minimize slide effect */
+  background-color: var(--bg-code-body);
+  box-shadow: 0 4px 6px -1px rgba(124, 124, 124, 0.5);
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* HEADER */
+.code-header {
+  background-color: var(--secondary-color);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #444746;
+  z-index: 2;
+  position: relative;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-color);
+  font-size: 13px;
+  font-weight: 500;
+  user-select: none;
+}
+
+.header-right {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.copy::before {
+  content: "content_copy";
+  font-family: "Sanatan Symbols";
+  font-size: 18px;
+  transition: transform 0.4s ease;
+}
+
+.minimize::before {
+  content: "keyboard_arrow_up";
+  font-family: "Sanatan Symbols";
+  font-size: 18px;
+  transition: transform 0.4s ease;
+}
+
+
+/* CODE CONTENT AREA */
+.code-content {
+  background-color: linear-gradient(var(--primary-color), var(--secondary-color));
+  padding: 24px;
+  overflow: hidden;
+  /* For clipping during transition */
+  position: relative;
+
+  /* Slide Animation Properties */
+  max-height: 500px;
+  /* Arbitrary large height to allow expansion */
+  opacity: 1;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    padding 0.5s ease;
+}
+
+/* Minimized State */
+.code-container.minimized .code-content {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+}
+
+.code-container.minimized .minimize::before {
+  transform: rotate(180deg);
+}

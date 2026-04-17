@@ -1,0 +1,350 @@
+@keyframes big {
+    from {
+        font-size: 0rem;
+    }
+    to {
+        font-size: 1.5rem;
+    }
+}
+@keyframes dotPulse {
+    0%,
+    44% {
+        transform: translateY(0);
+    }
+
+    28% {
+        opacity: 0.4;
+        transform: translateY(-4px);
+    }
+
+    44% {
+        opacity: 0.2;
+    }
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes display1 {
+    from {
+        width: 0px;
+        height: 0px;
+        opacity: 0;
+    }
+    to {
+        width: 35px;
+        height: 35px;
+        opacity: 1;
+    }
+}
+@keyframes display2 {
+    from {
+        width: 40px;
+        height: 40px;
+        display: block;
+        opacity: 1;
+    }
+    to {
+        width: 0px;
+        height: 0px;
+        display: none;
+        opacity: 0;
+    }
+}
+@keyframes big1 {
+    from {
+        font-size: 0rem;
+    }
+    to {
+        font-size: 2.6rem;
+    }
+}
+
+@keyframes small1 {
+    from {
+        font-size: 1.5rem;
+    }
+    to {
+        font-size: 0rem;
+    }
+}
+@keyframes fromRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fromLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fromTop {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes up-right-left-top {
+    25% {
+        margin-bottom: 10px;
+    }
+    50% {
+        transform: rotate(60deg);
+        margin-bottom: 10px;
+    }
+    75% {
+        transform: rotate(-60deg);
+        margin-bottom: 10px;
+    }
+    100% {
+        margin-bottom: 0px;
+    }
+}
+
+@keyframes spin1 {
+    0% {
+        transform: rotateY(360deg)
+    }
+    50% {
+        transform: rotateY(360deg)
+    }
+}
+
+
+@keyframes froum-top {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes scrollBtn {
+    from {
+       width: 0;
+       height: 0;
+       margin-right: 25px;
+       margin-bottom: 25px;
+    }
+    to {
+        width: 50px;
+       height: 50px;
+       margin-right: 0;
+       margin-bottom: 0;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+
+.shimmer-effect {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+.float-animation {
+    animation: float 6s ease infinite;
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+.rotate-animation {
+    animation: rotate 10s linear infinite;
+}
+
+.bounce-animation {
+    animation: bounce 2s ease infinite;
+}
+
+@keyframes fL {
+    from {
+        margin-left: 0;
+    }
+    to {
+        margin-left: 150px;
+    }
+}
+
+
+/* Animated Border */
+@keyframes borderAnimation {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+/* Text Animations */
+@keyframes textFlicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Gradient Text Animation */
+@keyframes gradientText {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+/* Message Entry Animation */
+@keyframes slideUpFade {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.message.fromRight, .message.fromLeft {
+    animation: slideUpFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Staggered Sidebar Entry */
+.chat-item {
+    opacity: 0;
+    animation: slideInLeft 0.3s ease forwards;
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Add staggered delays via JS or nth-child for first few items */
+.chat-item:nth-child(1) { animation-delay: 0.05s; }
+.chat-item:nth-child(2) { animation-delay: 0.1s; }
+.chat-item:nth-child(3) { animation-delay: 0.15s; }
+.chat-item:nth-child(4) { animation-delay: 0.2s; }
+.chat-item:nth-child(5) { animation-delay: 0.25s; }
+
+/* Button Interactions */
+.hover-lift-glow {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hover-lift-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--glow-color);
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

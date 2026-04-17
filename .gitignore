@@ -1,0 +1,6 @@
+# Sanatan AI Git Ignore File
+.vercel
+node_modules
+desktop.ini
+dist
+.env

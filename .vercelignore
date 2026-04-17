@@ -1,0 +1,8 @@
+.git
+dist
+node_modules
+desktop.ini
+markdown-it
+other
+build.cmd
+electron

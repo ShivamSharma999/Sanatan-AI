@@ -1,0 +1,110 @@
+@media(max-width: 713px) {
+	.chatbot-popup {
+		width: 100% !important;
+		right: 0 !important;
+		left: 0 !important;
+	}
+
+	.welcome-content {
+		padding: 10px !important;
+	}
+
+	.menuBar:not(.makeSmall) {
+		width: 300px !important;
+		opacity: 1 !important;
+        left: 0;
+		.action {
+			display: flex;
+			code,
+			span {
+				display: block;
+			}
+		}
+	}
+
+	.welcome {
+		width: 100vw !important;
+		height: 100vh !important;
+		padding: 0;
+	}
+
+	dialog {
+		height: 130px;
+		width: 50%;
+	}
+
+	.suggestion-list {
+		width: 100vw !important;
+		padding: 0 20px;
+	}
+
+	.welcome-title {
+		font-size: 2rem !important;
+	}
+
+	.about {
+		display: none;
+	}
+
+	.new-chat-btn {
+		aspect-ratio: 1/1;
+		border-radius: 50% !important;
+		span {
+	    	display: none;
+		}
+	}
+}
+
+/* Media query from main.css */
+@media (max-width: 768px) {
+  .chat-capsule {
+    padding: 6px;
+    border-radius: 20px;
+  }
+
+  /* Force stack layout for input and buttons */
+  .capsule-content {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .input-wrapper {
+    width: 100% !important;
+    background: transparent;
+    padding: 0;
+  }
+
+  .capsule-input {
+    min-height: 48px;
+    padding: 10px 4px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  /* Horizontal scroll for buttons row */
+  .capsule-controls {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto;
+    padding-bottom: 4px;
+    gap: 12px;
+  }
+
+  .capsule-action-btn {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  /* Media query from modern-ui.css */
+  #settings-popup {
+    padding: 20px;
+  }
+  
+  .settings-body {
+    grid-template-columns: 1fr;
+  }
+}
