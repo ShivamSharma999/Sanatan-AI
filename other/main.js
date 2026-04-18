@@ -8,7 +8,7 @@ function removeScripts() {
     pkg.scripts = {};
     pkg.devDependencies = {};
     Object.entries(pkg.dependencies).forEach(entry => {
-        if(!entry[0].includes("electron")) deps[entry[0]] = deps[entry[1]];
+        if(!entry[0].includes("electron")) deps[entry[0]] = entry[1];
     });
     pkg.dependencies = deps;
 

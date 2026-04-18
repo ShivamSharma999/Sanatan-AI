@@ -2,19 +2,26 @@ const express = require("express"),
   path = require("path"),
   nodemailer = require("nodemailer"),
   { escapeJsonString, open, isLocal } = require("./helper.js"),
-  { getHistory, setHistory, deleteHistory, getMemory, setMemory, getUser, setSessions } = require("./store.js");
-const adminRouter = require("./admin");
+  { getHistory, setHistory, deleteHistory, getMemory, setMemory, getUser, setSessions } = require("./store.js"),
+  adminRouter = require("./admin"),
+  { GoogleGenAI } = require("@google/genai"),
+  cors = require("cors"),
+  port = isLocal ? 3000 : Math.round(Math.random() * 9999),
+  app = express(),
+  whiteList = ["https://sanatan-ai.vercel.app/"];
 require('colors');
 require("dotenv").config(); // Load environment variables from .env file
-const { GoogleGenAI } = require("@google/genai");
-const cors = require("cors");
-const port = isLocal ? 3000 : Math.round(Math.random() * 9999);
-const app = express();
-
+isLocal ? whiteList.push("http://localhost:" + port) : "";
 const corsOptions = {
   optionsSuccessStatus: 200,
   preflightContinue: true,
-  origin: "*"
+  origin: function (origin, callback) {
+    if (whiteList.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
 };
 
 // Middleware to parse JSON request bodies
@@ -22,7 +29,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, '../public/main'))); // Serve static files from /public/main  
-if(isLocal) {
+if (isLocal) {
   open("http://localhost:3000");
 }
 
@@ -323,7 +330,7 @@ app.post("/mail", async (req, res) => {
 
 app.get("/", (req, res) => {
   const filePath = path.join(__dirname, './public/main/index.html');
-    res.sendFile(filePath);
+  res.sendFile(filePath);
 });
 
 const sendEmail = async (mailDetails) => {
