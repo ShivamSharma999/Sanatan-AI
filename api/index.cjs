@@ -1,36 +1,63 @@
 const express = require("express"),
   path = require("path"),
   nodemailer = require("nodemailer"),
-  { escapeJsonString, open, isLocal } = require("./helper.js"),
-  { getHistory, setHistory, deleteHistory, getMemory, setMemory, getUser, setSessions } = require("./store.js"),
-  adminRouter = require("./admin"),
+  { escapeJsonString, open, isLocal } = require("./helper.cjs"),
+  { getHistory, setHistory, deleteHistory, getMemory, setMemory, getUser, setSessions } = require("./store.cjs"),
+  adminRouter = require("./admin.cjs"),
   { GoogleGenAI } = require("@google/genai"),
   cors = require("cors"),
-  port = isLocal ? 3000 : Math.round(Math.random() * 9999),
-  app = express(),
-  whiteList = ["https://sanatan-ai.vercel.app/"];
+  port = Number(process.env.PORT) || 3000,
+  app = express();
 require('colors');
 require("dotenv").config(); // Load environment variables from .env file
-isLocal ? whiteList.push("http://localhost:" + port) : "";
-const corsOptions = {
-  optionsSuccessStatus: 200,
-  preflightContinue: true,
-  origin: function (origin, callback) {
-    if (whiteList.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
+
+const allowedOrigins = new Set(["https://sanatan-ai.vercel.app"]);
+if (process.env.VERCEL_URL) {
+  allowedOrigins.add(`https://${process.env.VERCEL_URL}`);
+}
+if (isLocal) {
+  allowedOrigins.add(`http://localhost:${port}`);
+  allowedOrigins.add("http://localhost:3000");
+}
+
+const corsOptionsDelegate = (req, callback) => {
+  const origin = req.headers.origin;
+  const host = req.headers.host;
+  const options = {
+    optionsSuccessStatus: 200,
+    preflightContinue: true,
+    origin: false,
+  };
+
+  if (!origin) {
+    return callback(null, { ...options, origin: true });
   }
+
+  try {
+    const originHost = new URL(origin).host;
+    // Allow local environments, the exact host, explicitly allowed origins, and all vercel preview deployments
+    if (
+      originHost === host ||
+      allowedOrigins.has(origin) ||
+      originHost.endsWith(".vercel.app") ||
+      originHost.includes("localhost")
+    ) {
+      return callback(null, { ...options, origin: true });
+    }
+  } catch (error) {
+    console.warn(`Invalid Origin header received: ${origin}`.yellow);
+  }
+
+  return callback(null, options);
 };
 
 // Middleware to parse JSON request bodies
 app.use(express.json({ limit: "50mb" }));
-app.use(cors(corsOptions));
+app.use(cors(corsOptionsDelegate));
 
 app.use(express.static(path.join(__dirname, '../public/main'))); // Serve static files from /public/main  
 if (isLocal) {
-  open("http://localhost:3000");
+  open(`http://localhost:${port}`);
 }
 
 // Admin Page Route - Serve HTML
@@ -329,7 +356,7 @@ app.post("/mail", async (req, res) => {
 
 
 app.get("/", (req, res) => {
-  const filePath = path.join(__dirname, './public/main/index.html');
+  const filePath = path.join(__dirname, '../public/main/index.html');
   res.sendFile(filePath);
 });
 
@@ -352,7 +379,9 @@ const sendEmail = async (mailDetails) => {
   }
 };
 
-app.listen(port, () => {
-  console.log("Server is running on port:".green, port.toString().green);
-});
+if (isLocal) {
+  app.listen(port, () => {
+    console.log("Server is running on port:".green, port.toString().green);
+  });
+}
 module.exports = app;

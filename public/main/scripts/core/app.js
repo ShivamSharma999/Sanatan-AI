@@ -171,7 +171,6 @@ export function renderChatList() {
       const span = Create("span.chat-title", {}, session.title),
       sId = session.id,
       button = Create("button.delete-chat", {}, '<code class="sanatan-symbol">delete</code>', ["click", (e) => {
-        console.log("Delete clicked for session:", sId);
         deleteSession(e, sId);
     }]),
       div = Create("div.chat-item.center-flex", {}, [span, button], ["click", () => loadSession(session.id)]);
@@ -469,7 +468,7 @@ export function edit(editButton, i) {
     style: {
       cssText: "width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--gradient-2); background: rgba(0,0,0,0.2); color: var(--text-color); resize: none; min-height: 60px;"
     }
-  }, currentText, [], [], editWrapper);
+  }, currentText, [], editWrapper);
   
   // Controls
   const controls = Create("div.flex", {}, [], [], editWrapper);

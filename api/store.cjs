@@ -1,6 +1,18 @@
 "use strict";
 
-const { supabase } = require('./supabase');
+const { supabase } = require('./supabase.cjs');
+let hasWarnedSupabaseDisabled = false;
+
+function getSupabaseClient() {
+  if (supabase) return supabase;
+
+  if (!hasWarnedSupabaseDisabled) {
+    console.warn('Supabase is disabled, so chat history and memory will not persist.');
+    hasWarnedSupabaseDisabled = true;
+  }
+
+  return null;
+}
 
 /**
  * Get chat history for a session.
@@ -8,8 +20,11 @@ const { supabase } = require('./supabase');
  * @returns {Promise<Array>} history array (contents format: { role, parts }[])
  */
 async function getHistory(sessionId) {
+  const client = getSupabaseClient();
+  if (!client) return [];
+
   try {
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('chat_messages')
       .select('role, parts')
       .eq('session_id', sessionId)
@@ -30,6 +45,9 @@ async function getHistory(sessionId) {
  * @param {Array} history
  */
 async function setHistory(sessionId, history) {
+  const client = getSupabaseClient();
+  if (!client) return;
+
   try {
     if (!Array.isArray(history)) {
       console.error('History must be an array');
@@ -37,7 +55,7 @@ async function setHistory(sessionId, history) {
     }
 
     // Delete existing messages for this session
-    await supabase
+    await client
       .from('chat_messages')
       .delete()
       .eq('session_id', sessionId);
@@ -50,7 +68,7 @@ async function setHistory(sessionId, history) {
         parts: msg.parts,
         message_order: index
       }));
-      const { error } = await supabase
+      const { error } = await client
         .from('chat_messages')
         .insert(messages);
 
@@ -67,9 +85,12 @@ async function setHistory(sessionId, history) {
  * @returns {Promise<Array>}
  */
 async function getSessions(userEmail) {
+  const client = getSupabaseClient();
+  if (!client) return [];
+
   try {
     // First get or create user
-    const { data: userData, error: userError } = await supabase
+    const { data: userData, error: userError } = await client
       .from('users')
       .select('id')
       .eq('email', userEmail)
@@ -79,7 +100,7 @@ async function getSessions(userEmail) {
     if (!userData) return [];
 
     // Get sessions for this user
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('chat_sessions')
       .select('id, title, timestamp')
       .eq('user_id', userData.id)
@@ -99,6 +120,9 @@ async function getSessions(userEmail) {
  * @param {Array} allSessions
  */
 async function setSessions(userEmail, allSessions) {
+  const client = getSupabaseClient();
+  if (!client) return;
+
   try {
     if (!userEmail) {
       console.error('User email is required for setSessions');
@@ -116,7 +140,7 @@ async function setSessions(userEmail, allSessions) {
     }
 
     // Get or create user
-    let { data: userData, error: userError } = await supabase
+    let { data: userData, error: userError } = await client
       .from('users')
       .select('id')
       .eq('email', userEmail)
@@ -124,7 +148,7 @@ async function setSessions(userEmail, allSessions) {
 
     if (userError && userError.code === 'PGRST116') {
       // User doesn't exist, create new user
-      const { data: newUser, error: createError } = await supabase
+      const { data: newUser, error: createError } = await client
         .from('users')
         .insert({ email: userEmail })
         .select('id')
@@ -137,7 +161,7 @@ async function setSessions(userEmail, allSessions) {
     }
 
     // Delete all existing sessions for this user
-    await supabase
+    await client
       .from('chat_sessions')
       .delete()
       .eq('user_id', userData.id);
@@ -151,7 +175,7 @@ async function setSessions(userEmail, allSessions) {
         timestamp: session.timestamp || Date.now()
       }));
 
-      const { error } = await supabase
+      const { error } = await client
         .from('chat_sessions')
         .insert(sessionsToInsert);
 
@@ -167,8 +191,11 @@ async function setSessions(userEmail, allSessions) {
  * @param {string} sessionId
  */
 async function deleteHistory(sessionId) {
+  const client = getSupabaseClient();
+  if (!client) return;
+
   try {
-    const { error } = await supabase
+    const { error } = await client
       .from('chat_messages')
       .delete()
       .eq('session_id', sessionId);
@@ -184,8 +211,11 @@ async function deleteHistory(sessionId) {
  * @returns {Promise<object>} map of sessionId -> history
  */
 async function getAllSessions() {
+  const client = getSupabaseClient();
+  if (!client) return {};
+
   try {
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('chat_sessions')
       .select('id');
 
@@ -209,8 +239,11 @@ async function getAllSessions() {
  * @returns {Promise<Array>}
  */
 async function getMemory(userEmail) {
+  const client = getSupabaseClient();
+  if (!client) return [];
+
   try {
-    const { data: userData, error: userError } = await supabase
+    const { data: userData, error: userError } = await client
       .from('users')
       .select('id')
       .eq('email', userEmail)
@@ -219,7 +252,7 @@ async function getMemory(userEmail) {
     if (userError && userError.code !== 'PGRST116') throw userError;
     if (!userData) return [];
 
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('ai_memory')
       .select('memory_item')
       .eq('user_id', userData.id)
@@ -239,18 +272,21 @@ async function getMemory(userEmail) {
  * @param {Array} memory
  */
 async function setMemory(userEmail, memory) {
+  const client = getSupabaseClient();
+  if (!client) return;
+
   try {
     const memoryArray = Array.isArray(memory) ? memory : [memory];
 
     // Get or create user
-    let { data: userData, error: userError } = await supabase
+    let { data: userData, error: userError } = await client
       .from('users')
       .select('id')
       .eq('email', userEmail)
       .single();
 
     if (userError && userError.code === 'PGRST116') {
-      const { data: newUser, error: createError } = await supabase
+      const { data: newUser, error: createError } = await client
         .from('users')
         .insert({ email: userEmail })
         .select('id')
@@ -263,7 +299,7 @@ async function setMemory(userEmail, memory) {
     }
 
     // Delete existing memory
-    await supabase
+    await client
       .from('ai_memory')
       .delete()
       .eq('user_id', userData.id);
@@ -275,7 +311,7 @@ async function setMemory(userEmail, memory) {
         memory_item: item
       }));
 
-      const { error } = await supabase
+      const { error } = await client
         .from('ai_memory')
         .insert(memoryItems);
 

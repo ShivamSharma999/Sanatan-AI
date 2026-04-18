@@ -27,10 +27,10 @@ export var Sanatan = {
           borderRadius: "8px",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
           textAlign: "center",
-          width: "300px"
+          width: "300px",
+          color: "var(--text-color)"
         },
-        color: "var(--text-color)"
-      }, "", [text, buttonsDiv]);
+      }, [text, buttonsDiv]);
       const overlay = Create("div.center-flex", {
         style: {
           position: "fixed",
@@ -41,7 +41,7 @@ export var Sanatan = {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           zIndex: 9999
         }
-      }, "", [dialog]);
+      }, [dialog]);
         document.body.appendChild(overlay);
     });
   },

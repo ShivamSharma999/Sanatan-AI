@@ -254,7 +254,7 @@ export async function enhancePrompt() {
       }
     };
 
-    const data = await LiveStream("https://sanatanai-psi.vercel.app/generate", {
+    const data = await LiveStream("/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ requestOptions }),

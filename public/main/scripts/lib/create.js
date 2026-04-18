@@ -78,7 +78,7 @@ export default function Create(query, props = {}, childs = [], ev, parentElement
         ev.forEach(event => {
             evListener(event[0], element, ev[1]);
         })
-    } else if(ev) console.error("Please use a valid format for adding event listeners");
+    } else if(ev && !(ev.length == 0)) console.error("Please use a valid format for adding event listeners");
 
     if (parentElement) {
         parentElement.appendChild(element)

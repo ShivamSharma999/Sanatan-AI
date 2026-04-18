@@ -12,7 +12,7 @@ copyright © 2025-26 Sanatan AI
 const express = require("express");
 const path = require("path");
 const router = express.Router();
-const { getAllSessions, getHistory, setHistory } = require("./store");
+const { getAllSessions, getHistory, setHistory } = require("./store.cjs");
 
 // Middleware to check password for protected admin APIs
 const checkAuth = (req, res, next) => {
@@ -48,8 +48,8 @@ router.post("/auth", (req, res) => {
 router.use(checkAuth);
 
 // Get all sessions (Users)
-router.get("/users", (req, res) => {
-  const sessions = getAllSessions();
+router.get("/users", async (req, res) => {
+  const sessions = await getAllSessions();
   const sessionList = Object.keys(sessions).map(id => {
     const history = sessions[id];
     // Try to find a user name if it was ever stored in the history (unlikely but possible if we change frontend)
@@ -76,20 +76,20 @@ router.get("/users", (req, res) => {
 });
 
 // Get specific chat history
-router.get("/chats/:sessionId", (req, res) => {
+router.get("/chats/:sessionId", async (req, res) => {
   const { sessionId } = req.params;
-  const history = getHistory(sessionId);
+  const history = await getHistory(sessionId);
   res.json(history);
 });
 
 // Edit chat history
-router.put("/chats/:sessionId", (req, res) => {
+router.put("/chats/:sessionId", async (req, res) => {
   const { sessionId } = req.params;
   const { history } = req.body;
   if (!Array.isArray(history)) {
     return res.status(400).json({ error: "History must be an array" });
   }
-  setHistory(sessionId, history);
+  await setHistory(sessionId, history);
   res.json({ success: true });
 });
 

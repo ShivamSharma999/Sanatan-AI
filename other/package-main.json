@@ -1,8 +1,9 @@
 {
   "name": "sanatan-ai",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "Sanatan AI, a powerful AI powered assistant",
   "main": "electron/build.js",
+  "type": "commonjs",
   "author": "Shivam Sharma",
   "license": "UNLICENSED",
   "repository": "https://github.com/ShivamSharma999/Sanatan-AI",
