@@ -6,7 +6,6 @@ function removeScripts() {
     let deps = {};
     pkg.main = "api/index.js";
     pkg.scripts = {};
-    pkg.type = "module"
     pkg.devDependencies = {};
     Object.entries(pkg.dependencies).forEach(entry => {
         if(!entry[0].includes("electron")) deps[entry[0]] = entry[1];

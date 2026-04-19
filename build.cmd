@@ -16,12 +16,13 @@ if "%commitMsg%"=="" (
     git add .
     git commit -m "%commitMsg%"
 )
-set /p buildOrDev=Do you want to build the app or run the dev script? (build/dev/none):
-if "%buildOrDev%"=="build" (
+set /p buildOrDev=Do you want to build the app or run the dev script? (vercel/build/dev/none):
+if "%buildOrDev%"=="vercel" (
     echo deploying to vercel..
     cmd /c "cd other && node ./main.cjs"
     cmd /c vercel --prod
     cmd /c "cd other && node ./main.cjs"
+) else if "%buildOrDev%"=="build" (
     echo Building the app...
     npm run publish
 ) else if "%buildOrDev%"=="dev" (
@@ -33,4 +34,10 @@ if "%buildOrDev%"=="build" (
     echo Invalid option.
     echo Skipping by default..
 )
-exit 0
+if "%errorLevel%" == "0" (
+    exit 0
+) else (
+    echo Error Occured
+    pause
+    exit 0
+)

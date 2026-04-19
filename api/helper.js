@@ -1,7 +1,6 @@
-const childProcess = require('node:child_process');
+import { spawn } from 'node:child_process';
 
-exports.escapeJsonString =
-    function escapeJsonString(str) {
+export function escapeJsonString(str) {
         try {
             JSON.parse(str);
             return str;
@@ -41,7 +40,7 @@ exports.escapeJsonString =
 
 
 
-exports.open = (target) => {
+export function open(target) {
     if (typeof target !== 'string') {
         throw new TypeError('Expected a `target`');
     }
@@ -52,12 +51,12 @@ exports.open = (target) => {
         cliArguments.push('/c', 'start', '""', '/b');
         target = target.replace(/&/g, '^&');
         cliArguments.push(target);
-        const subprocess = childProcess.spawn('cmd', cliArguments);
+        const subprocess = spawn('cmd', cliArguments);
 
         subprocess.unref();
 
         return subprocess;
     }
-};
+}
 
-exports.isLocal = process.platform === 'win32'
+export const isLocal = process.platform === 'win32'

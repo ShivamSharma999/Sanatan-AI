@@ -1,15 +1,20 @@
-const express = require("express"),
-  path = require("path"),
-  nodemailer = require("nodemailer"),
-  { escapeJsonString, open, isLocal } = require("./helper.cjs"),
-  { getHistory, setHistory, deleteHistory, getMemory, setMemory, getUser, setSessions } = require("./store.cjs"),
-  adminRouter = require("./admin.cjs"),
-  { GoogleGenAI } = require("@google/genai"),
-  cors = require("cors"),
-  port = Number(process.env.PORT) || 3000,
-  app = express();
-require('colors');
-require("dotenv").config(); // Load environment variables from .env file
+import express, { json, static as expstatic} from "express";
+import { join, dirname } from "path";
+import { createTransport } from "nodemailer";
+import { escapeJsonString, open, isLocal } from "./helper.js";
+import { getHistory, setHistory, deleteHistory, getMemory, setMemory, getUser, setSessions } from "./store.js";
+import adminRouter from "./admin.js";
+import { GoogleGenAI } from "@google/genai";
+import cors from "cors";
+const port = Number(process.env.PORT) || 3000;
+const app = express();
+import 'colors';
+import { config } from 'dotenv';
+config();
+import { fileURLToPath } from 'node:url';
+    
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 
 const allowedOrigins = new Set(["https://sanatan-ai.vercel.app"]);
 if (process.env.VERCEL_URL) {
@@ -52,17 +57,17 @@ const corsOptionsDelegate = (req, callback) => {
 };
 
 // Middleware to parse JSON request bodies
-app.use(express.json({ limit: "50mb" }));
+app.use(json({ limit: "50mb" }));
 app.use(cors(corsOptionsDelegate));
 
-app.use(express.static(path.join(__dirname, '../public/main'))); // Serve static files from /public/main  
+app.use(expstatic(join(__dirname, '../public/main'))); // Serve static files from /public/main  
 if (isLocal) {
   open(`http://localhost:${port}`);
 }
 
 // Admin Page Route - Serve HTML
 app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/admin/index.html'));
+  res.sendFile(join(__dirname, '../public/admin/index.html'));
 });
 
 // Admin API Router
@@ -356,12 +361,12 @@ app.post("/mail", async (req, res) => {
 
 
 app.get("/", (req, res) => {
-  const filePath = path.join(__dirname, '../public/main/index.html');
+  const filePath = join(__dirname, '../public/main/index.html');
   res.sendFile(filePath);
 });
 
 const sendEmail = async (mailDetails) => {
-  const transporter = nodemailer.createTransport({
+  const transporter = createTransport({
     host: "smtp.gmail.com",
     port: 587,
     auth: {
@@ -384,4 +389,4 @@ if (isLocal) {
     console.log("Server is running on port:".green, port.toString().green);
   });
 }
-module.exports = app;
+export default app;

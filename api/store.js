@@ -1,6 +1,6 @@
 "use strict";
 
-const { supabase } = require('./supabase.cjs');
+import { supabase } from './supabase.js';
 let hasWarnedSupabaseDisabled = false;
 
 function getSupabaseClient() {
@@ -347,7 +347,7 @@ async function getUser(userEmail) {
   }
 }
 
-module.exports = {
+export {
   getHistory,
   setHistory,
   deleteHistory,

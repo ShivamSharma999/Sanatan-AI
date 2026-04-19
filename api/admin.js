@@ -9,10 +9,12 @@ No one, in any case, could use, view, edit, share,
 
 copyright © 2025-26 Sanatan AI
 ===================================================*/
-const express = require("express");
-const path = require("path");
-const router = express.Router();
-const { getAllSessions, getHistory, setHistory } = require("./store.cjs");
+import { Router } from "express";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+const router = Router();
+import { getAllSessions, getHistory, setHistory } from "./store.js";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Middleware to check password for protected admin APIs
 const checkAuth = (req, res, next) => {
@@ -28,7 +30,7 @@ const checkAuth = (req, res, next) => {
 // --- Public Admin Page (HTML) ---
 // This route must remain public so that visiting /admin loads the dashboard UI.
 router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/index.html"));
+  res.sendFile(join(__dirname, "../public/admin/index.html"));
 });
 
 
@@ -93,4 +95,4 @@ router.put("/chats/:sessionId", async (req, res) => {
   res.json({ success: true });
 });
 
-module.exports = router;
+export default router;

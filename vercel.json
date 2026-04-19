@@ -1,9 +1,27 @@
 {
   "version": 2,
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/index.cjs"
-    }
+    { "source": "/Resources/(.*)", "destination": "/main/Resources/$1" },
+    { "source": "/icons/(.*)", "destination": "/main/icons/$1" },
+    { "source": "/scripts/(.*)", "destination": "/main/scripts/$1" },
+    { "source": "/styles/(.*)", "destination": "/main/styles/$1" },
+    { "source": "/offline/(.*)", "destination": "/main/offline/$1" },
+    { "source": "/markdown-it/(.*)", "destination": "/main/markdown-it/$1" },
+    { "source": "/favicon.ico", "destination": "/main/favicon.ico" },
+    { "source": "/generate", "destination": "/api/index.js" },
+    { "source": "/v1/generate", "destination": "/api/index.js" },
+    { "source": "/chat", "destination": "/api/index.js" },
+    { "source": "/chat/history/(.*)", "destination": "/api/index.js" },
+    { "source": "/memory", "destination": "/api/index.js" },
+    { "source": "/user", "destination": "/api/index.js" },
+    { "source": "/user/sessions", "destination": "/api/index.js" },
+    { "source": "/mail", "destination": "/api/index.js" },
+    { "source": "/auth/google", "destination": "/api/index.js" },
+    { "source": "/admin/auth", "destination": "/api/index.js" },
+    { "source": "/admin/users", "destination": "/api/index.js" },
+    { "source": "/admin/chats/(.*)", "destination": "/api/index.js" },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/", "destination": "/admin/index.html" },
+    { "source": "/", "destination": "/main/index.html" }
   ]
 }
