@@ -1,4 +1,5 @@
 "use strict"
+import LordIcon from "../../icons/load.js";
 import { checkKey, createNewChat, scrollC } from "../core/app.js";
 import Create from "../lib/create.js";
 import { closE } from "../utils/definitions.js";
@@ -47,7 +48,7 @@ export function getPopup() {
     ]);
 
     // Deep Think
-    const deepThinkBtn = Create("button.deepThink.sanatan-symbol.capsule-action-btn", { id: "deep-think-btn", "data-label": "Deep Think" }, "neurology");
+    const deepThinkBtn = Create("button.deepThink.capsule-action-btn", { id: "deep-think-btn", "data-label": "Deep Think" }, LordIcon({ src: "icons/brain.json", stroke: 3, trigger: "hover", target: "#deep-think-btn", style: "width: 24px; height: 24px;" }));
 
     // Search
     const googleBtn = Create("button.img.capsule-action-btn", { "data-label": "Search", id: "Google-Btn" }, [
@@ -61,7 +62,7 @@ export function getPopup() {
 
     // Send Button
     const sendMessage = Create("button.send-btn-capsule", { id: "send-message", "data-label": "Send" }, [
-        Create("lord-icon", { trigger: "hover", stroke: "bold", colors: "primary:#ffffff", style: "width: 20px; height: 20px;", src: "icons/arrow.json" })
+        Create("lord-icon", { trigger: "hover", stroke: "bold", colors: "primary:#ffffff", style: "width: 20px; height: 20px;", src: "icons/plane.json" })
     ], ["click", () => window.handleOutgoingMessage ? window.handleOutgoingMessage() : null]);
 
     const capsuleControls = Create("div.capsule-controls", {}, [enhanceBtn, enhanceMenu, fileInput, fileUploadBtn, deepThinkBtn, googleBtn, voiceBtn, sendMessage]);
@@ -106,22 +107,21 @@ function getSettings() {
     const nameInput = Create("input.modern-input", { type: "text", id: "name", value: "user", autocomplete: "true" });
     const nameItem = Create("div.setting-item.name-input.neomorphic", {}, [nameLabel, nameInput]);
 
-    // Theme Select
-    const themeLabel = Create("label", { for: "theme-select" }, [
-        Create("span.sanatan-symbol.rotate", {}, "light_mode"),
-        Create("code", {}, " Theme: ")
-    ]);
 
     const themeOpts = ["auto", "light", "dark"].map(val => {
         const opt = Create("option", { value: val }, val === "auto" ? "auto" : (val.charAt(0).toUpperCase() + val.slice(1)));
         return opt;
     });
-    const themeSelect = Create("select.modern-select", { id: "theme-select" }, themeOpts);
-    const themeItem = Create("div.setting-item.neomorphic", {}, [themeLabel, themeSelect]);
+    const themeItem = Create("div.setting-item.neomorphic", {});
+    const themeLabel = Create("label", { for: "theme-select" }, [
+        LordIcon({ src: "icons/theme.json", stroke: 3, target: "div.setting-item.neomorphic", trigger: "hover" }),
+        Create("code", {}, " Theme: ")
+    ], [], themeItem);
+    const themeSelect = Create("select.modern-select", { id: "theme-select" }, themeOpts, [], themeItem);
 
     // Language Select
     const langLabel = Create("label", { for: "languageSelector" }, [
-        Create("span.sanatan-symbol.rotate", {}, "language"),
+        LordIcon({ src: "icons/language.json", stroke: 3, target: "div.setting-item.neomorphic", trigger: "hover" }),
         Create("code", {}, " Language: ")
     ]);
 

@@ -64,7 +64,7 @@ async function initApp() {
 }
 
 export async function saveChatHistory() {
-    if (!state.activeSessionId) return;
+    if (!state.activeSessionId || !state.userName) return;
         try {
             await fetch(`/chat/history/${state.activeSessionId}`, {
                 method: "PUT",

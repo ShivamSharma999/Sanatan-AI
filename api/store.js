@@ -54,6 +54,22 @@ async function setHistory(sessionId, history) {
       return;
     }
 
+    // Check if session exists
+    const { data: sessionData, error: sessionError } = await client
+      .from('chat_sessions')
+      .select('id')
+      .eq('id', sessionId)
+      .single();
+
+    if (sessionError && sessionError.code !== 'PGRST116') {
+      throw sessionError;
+    }
+
+    if (!sessionData) {
+      console.warn(`Session ${sessionId} does not exist, skipping history save`);
+      return;
+    }
+
     // Delete existing messages for this session
     await client
       .from('chat_messages')

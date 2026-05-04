@@ -46,31 +46,20 @@ export function checkHeight() {
 export function btnHov(btn, isActive) {
   let isDeep = btn === deepThinkBtn;
   let icon = isDeep
-    ? '<code class="sanatan-symbol">neurology</code>'
+    ? '<lord-icon src="icons/brain.json" target="#deep-think-btn" stroke="bold" trigger="hover" style="width: 24px; height: 24px;"></lord-icon>'
     : `<lord-icon src="icons/google.json" target="#Google-Btn" stroke="bold" trigger="hover" style="width: 24px; height: 24px;"></lord-icon>`;
 
-  // Update state
-  // This logic modifies 'isActive' argument, but also global 'isDeepChat'/'isGoogle'.
-  // Access state directly.
   isDeep ? (state.isDeepChat = !isActive) : (state.isGoogle = !isActive);
   isActive = !isActive;
 
   btn.style.background = isActive ? (isDeep ? "rgba(241, 196, 15, 0.15)" : "rgba(0, 102, 255, 0.17)") : "transparent";
-  btn.classList.remove(isActive ? "sanatan-symbol" : "selected");
+  btn.classList.remove("selected");
   btn.classList.remove("abcd");
 
   btn.innerHTML = icon;
-  isDeep
-    ? btn.classList.add(
-      isActive ? (isPC ? "selected" : "abcd") : "sanatan-symbol"
-    )
-    : isActive && isPC
-      ? btn.classList.add("selected")
-      : "";
+  isActive ? btn.classList.add("selected") : null;
 }
 
-// Window assignment for button onclicks if needed (handled in app.js or event listeners preferred)
-window.btnHov = btnHov;
 
 export async function getFiles() {
   state.allowedExtensions = await fetch("Resources/supportedfiles.json").then(

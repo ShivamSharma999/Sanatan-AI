@@ -1,6 +1,6 @@
 import { state } from "../core/state.js";
 import { Create, getPopup, getSettings } from "../components/elements.js";
-import { evListener } from "../core/config.js";
+import { btnHov, evListener } from "../core/config.js";
 
 /**
  * @param {string} query
@@ -84,10 +84,7 @@ export function showNotification(message, type = "info") {
     }
     <span>${message}</span>
   </div>`;
-  const notification = Create(`div.notification.${type}.glass-effect`, {}, innerHTML)
-  notification.innerHTML = `
-
-`;
+  const notification = Create(`div.notification.${type}.glass-effect`, {}, innerHTML);
 
   document.body.appendChild(notification);
 
@@ -100,6 +97,7 @@ export function showNotification(message, type = "info") {
     setTimeout(() => notification.remove(), 300);
   }, 3000);
 }
+window.showNotification = showNotification;
 
 export function initDom() {
   if (_initialized) return;
@@ -128,13 +126,13 @@ export function initDom() {
 
   if (googleBtn) {
     evListener("click", googleBtn, () =>
-      window.btnHov ? window.btnHov(googleBtn, state.isGoogle) : null
+      btnHov(googleBtn, state.isGoogle)
     );
   }
 
   if (deepThinkBtn) {
     evListener("click", deepThinkBtn, () =>
-      window.btnHov ? window.btnHov(deepThinkBtn, state.isDeepChat) : null
+      btnHov(deepThinkBtn, state.isDeepChat)
     );
   }
 
