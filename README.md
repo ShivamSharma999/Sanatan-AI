@@ -2,7 +2,7 @@
 <div style="display: flex; flex-direction: column; justify-content: center; align-items:center;"><img src="public/main/Resources/images/logo.png" alt="Sanatan AI" style="margin-left: auto; margin-right:auto; width: 200px;">
 
 [![Version](https://img.shields.io/badge/version-2.2.9-blue.svg)](https://github.com/ShivamSharma999/Sanatan-AI)
-[![License](https://img.shields.io/badge/license-UNLICENSED-red.svg)](#)</div>
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](#)</div>
 
 **Sanatan AI** is a powerful, AI-powered assistant designed to provide profound insights, answers, and guidance. Whether used as a deployable web application or a standalone desktop client, it integrates the power of Google's Generative AI (`gemini-2.5-flash`) with an elegant, lightning-fast vanilla Javascript frontend.
 
@@ -149,8 +149,8 @@ The `vercel.json` file ensures that:
 ---
 
 ## 🤝 Contributing
-Contributions are always welcome but only when permitted by owner. Please ensure that PRs are accompanied by clear descriptions and that you respect the Vanilla-JS architecture of the `/public` core.
+Contributions are always welcome. Please ensure that PRs are accompanied by clear descriptions and that you respect the Vanilla-JS architecture of the `/public` core.
 
 ## 📝 License
 Copyright © Shivam Sharma. All rights reserved. 
-Use of this source code is governed by an UNLICENSED agreement.
+Use of this source code is governed by an MIT agreement.
