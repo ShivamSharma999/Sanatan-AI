@@ -1,5 +1,6 @@
 import { convertToHtml } from "../utils/particles.js";
 import {createNewSession, loadSession, renderChatList, showChatListLoader} from "./app.js";
+import { t } from "../utils/i18n.js";
 
 export const state = {
     activeSessionId: localStorage.getItem("sanatan_active_session"),
@@ -115,7 +116,7 @@ export function setActiveSession(id) {
 
 export function createNewSessionData() {
     const id = Date.now().toString();
-    const newSession = { id, title: "New Chat", timestamp: Date.now() };
+    const newSession = { id, title: t("newChat"), timestamp: Date.now() };
     
     // Prevent duplicates (unlikely with timestamp id but good practice)
     if (state.chatSessions.some(s => s.id === id)) return state.activeSessionId;
@@ -173,14 +174,14 @@ export async function deleteSessionData(id) {
 }
 
 export function updateSessionTitleData(text) {
-    if (!text || !state.activeSessionId) return "New Chat";
+    if (!text || !state.activeSessionId) return t("newChat");
     const session = state.chatSessions.find(s => s.id === state.activeSessionId);
     if (session) {
         session.title = text.substring(0, 30) + (text.length > 30 ? "..." : "");
         saveSessions();
         return session.title;
     }
-    return "New Chat";
+    return t("newChat");
 }
 
 export function storeAIMemory(data) {

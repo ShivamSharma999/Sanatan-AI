@@ -11,6 +11,7 @@ import { updateFilePreview } from "../utils/file-preview.js";
 import { convertToHtml } from "../utils/particles.js";
 import { md, renderMath } from "../utils/md-extension.js";
 import Sanatan from "../core/sanatan.js";
+import { t } from "../utils/i18n.js";
 
 const FunctionList = {
   push_memory: storeAIMemory,
@@ -65,7 +66,7 @@ export async function generateBotResponse(wasError = false) {
         newMessage,
         config: { model: "gemini-2.5-flash", ...config },
       })
-  if(!state.activeSessionId) return showNotification("Please select a chat or click 'New Chat' from top right", "error")
+  if(!state.activeSessionId) return showNotification(t("pleaseSelectChat"), "error")
   try {
     const data = LiveStream(url, {
       method: "POST",
@@ -229,7 +230,7 @@ export async function enhancePrompt() {
   const input = document.getElementById("message");
   const text = input.value;
   if (!text) {
-    showNotification("Please enter some text to enhance", "error");
+    showNotification(t("pleaseEnterTextToEnhance"), "error");
     return;
   }
 
@@ -276,7 +277,7 @@ export async function enhancePrompt() {
 
   } catch (error) {
     console.error("Error enhancing prompt:", error);
-    showNotification("Failed to enhance prompt", "error");
+    showNotification(t("failedToEnhancePrompt"), "error");
   } finally {
     btn.innerHTML = originalIcon;
     const menu = document.getElementById("enhance-menu");

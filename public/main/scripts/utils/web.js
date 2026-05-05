@@ -1,3 +1,5 @@
+import { t } from "./i18n.js";
+
 function deleteMessage() {
   chatHistory = [];
   messageInput.focus();
@@ -7,7 +9,7 @@ function deleteMessage() {
 }
 
 function askToDel() {
-  Sanatan.ask("Are you sure To Delete all Messages?").then((response) => {
+  Sanatan.ask(t("deleteAllConfirmation")).then((response) => {
     if (response) deleteMessage();
   });
 }

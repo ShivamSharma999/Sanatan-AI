@@ -1,17 +1,18 @@
 import { Create } from "./elements.js";
 import { state, storeAIMemory, deleteAIMemory } from "../core/state.js";
 import { showNotification } from "../utils/definitions.js";
+import { t } from "../utils/i18n.js";
 
 export function showMemoryManager() {
     const closeBtn = Create("button", { style: "background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;" },"✕", ["click", () => container.remove()]);
-    const header = Create("div.header.center-flex", { style: "justify-content: space-between;" }, [Create("h3", {}, "Brain / Memory"), closeBtn]);
+    const header = Create("div.header.center-flex", { style: "justify-content: space-between;" }, [Create("h3", {}, t("manageAIMemory")), closeBtn]);
 
     const list = Create("div.memory-list.col", { style: "flex: 1; overflow-y: auto; gap: 8px; max-height: 300px;" });
 
     const renderList = () => {
         list.innerHTML = "";
         if (state.aiMemory.length === 0) {
-            list.innerHTML = `<p style="text-align: center; color: #888;">No memories stored.</p>`;
+            list.innerHTML = `<p style="text-align: center; color: #888;">${t("noMemoriesStored")}</p>`;
             return;
         }
         state.aiMemory.forEach((mem, _) => {
@@ -26,13 +27,13 @@ export function showMemoryManager() {
 
     renderList();
 
-    const input = Create("input", { placeholder: "Add new memory...", style: "flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #444; background: #222; color: white;" });
-    const addBtn = Create("button", { style: "padding: 8px 15px; background: var(--gradient-1); color: white; border: none; border-radius: 6px; cursor: pointer;" }, "Add", ["click", () => {
+    const input = Create("input", { placeholder: t("addNewMemory"), style: "flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #444; background: #222; color: white;" });
+    const addBtn = Create("button", { style: "padding: 8px 15px; background: var(--gradient-1); color: white; border: none; border-radius: 6px; cursor: pointer;" }, t("add"), ["click", () => {
         if (input.value.trim()) {
             storeAIMemory(input.value.trim());
             input.value = "";
             renderList();
-            showNotification("Memory Added", "success");
+            showNotification(t("memoryAdded"), "success");
         }
     }]);
     

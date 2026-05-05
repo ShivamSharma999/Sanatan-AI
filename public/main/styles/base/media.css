@@ -53,6 +53,14 @@
 	    	display: none;
 		}
 	}
+
+	.message-text {
+		max-width: 100% !important;
+	}
+
+	scroll-button {
+		bottom: 150px !important;
+	}
 }
 
 /* Media query from main.css */

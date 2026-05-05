@@ -17,7 +17,7 @@
       content="https://sanatan-ai.vercel.app/favicon.ico"
     />
     <meta property="og:url" content="https://sanatan-ai.vercel.app/" />
-    <title>SANATAN AI</title>
+    <title data-i18n="siteTitle">SANATAN AI</title>
     <link rel="stylesheet" href="styles/components/animations.css" />
     <link rel="stylesheet" href="styles/base/extra.css" />
     <link rel="stylesheet" href="styles/base/modern-effects.css" />
@@ -43,7 +43,7 @@
 
   <body class="center-flex">
     <button class="menuopen center-flex sanatan-symbol">dehaze</button>
-    <button class="stopRespond btn-gradient">
+    <button class="stopRespond btn-gradient" data-i18n="stopResponding">
       Stop Responding
       <code class="sanatan-symbol">stop_circle</code>
     </button>
@@ -55,7 +55,7 @@
       <br />
 
       <div class="footer col center-flex actions">
-        <div class="profile-section center-flex" data-label="Customize your Sanatan AI experience">
+        <div class="profile-section center-flex" data-i18n-label="profileTooltip">
           <img
             src="Resources/images/User.png"
             alt="Profile"
@@ -66,9 +66,9 @@
             <span class="user-name" id="user-name-display">Guest</span>
           </div>
         </div>
-        <button class="action center-flex" data-label="Search and Explore Bhagwat Geeta Shloks">
+        <button class="action center-flex" data-i18n-label="searchGeetaTooltip">
           <lord-icon src="icons/gita.json" target="button.action.center-flex" stroke="bold" trigger="hover" style="width: 24px; height: 24px;"></lord-icon>
-          <span>Bhagvat Gita</span>
+          <span data-i18n="searchGeetaButton">Bhagavad Gita</span>
         </button>
       </div>
     </div>
@@ -76,7 +76,7 @@
     <div class="center-flex col loading">
       <div class="loading-spinner"></div>
       <br />
-      Loading...
+      <span data-i18n="loading">Loading...</span>
     </div>
 
     <dialog class="fullscreen"></dialog>
@@ -87,43 +87,43 @@
           <h1 class="logoTxt welcome-title animated-gradient-text">
             Sanatan AI
           </h1>
-          <h2 class="welcome-subtext">Terms of Service</h2>
+          <h2 class="welcome-subtext" data-i18n="termsTitle">Terms of Service</h2>
           <div class="terms-box">
-            <p>
+            <p data-i18n="termsIntro">
               By using Sanatan AI, you agree to the following terms and
               conditions:
             </p>
             <ul>
-              <li>
+              <li data-i18n="termsList1">
                 This AI is for informational and educational purposes related to
                 Sanatan Dharma.
               </li>
-              <li>
+              <li data-i18n="termsList2">
                 The information provided may not always be 100% accurate. Please
                 consult with qualified spiritual teachers for profound matters.
               </li>
-              <li>
+              <li data-i18n="termsList3">
                 Do not use this service for any illegal or malicious activities.
               </li>
-              <li><b>Sanatan AI's Responses</b> are powered by Gemini</li>
-              <li>
+              <li data-i18n="termsList4" data-i18n-html="true"><b>Sanatan AI's Responses</b> are powered by Gemini</li>
+              <li data-i18n="termsList5" data-i18n-html="true">
                 Animated Icons are from
                 <a href="https://lordicon.com">LordIcon</a>
               </li>
-              <li>
+              <li data-i18n="termsList6">
                 Your conversations may be used anonymously to improve the AI
                 model.
               </li>
-              <li>We reserve the right to change these terms at any time.</li>
+              <li data-i18n="termsList7">We reserve the right to change these terms at any time.</li>
             </ul>
           </div>
-          <button id="agree-btn" class="welcomeButton">Agree & Proceed</button>
+          <button id="agree-btn" class="welcomeButton" data-i18n="agreeProceed">Agree & Proceed</button>
         </div>
 
         <!-- Step 2: Google Login -->
         <div id="email-step" class="welcome-step col">
-          <h1 class="welcome-title animated-gradient-text">Welcome Seeker</h1>
-          <h2 class="welcome-subtext">
+          <h1 class="welcome-title animated-gradient-text" data-i18n="welcomeSeeker">Welcome Seeker</h1>
+          <h2 class="welcome-subtext" data-i18n="loginJourney">
             Login with Google to begin your journey.
           </h2>
           <div class="login-container center-flex">
@@ -141,23 +141,24 @@
               class="logo-glow"
             />
           </div>
-          <h1 class="welcome-text fromTop animated-gradient-text">
+          <h1 class="welcome-text fromTop animated-gradient-text" data-i18n="almostThere">
             Almost There!
           </h1>
-          <h2 class="welcome-subtext fromLeft">Tell about you.</h2>
+          <h2 class="welcome-subtext fromLeft" data-i18n="tellAboutYou">Tell about you.</h2>
           <div class="input-group col customize-group">
-            <label for="welcome-name-input">Enter your Name:</label>
+            <label for="welcome-name-input" data-i18n="enterNameLabel">Enter your Name:</label>
             <input
               type="text"
               id="welcome-name-input"
               class="modern-input"
               placeholder="e.g., Arjuna"
+              data-i18n-placeholder="enterNameLabel"
             />
           </div>
           <button
             id="finish-setup-btn"
             class="welcomeButton center-flex pulse-animation">
-            <span>Start AI</span>
+            <span data-i18n="startAi">Start AI</span>
             <span class="arrow">→</span>
           </button>
         </div>

@@ -235,7 +235,6 @@ export function convertToHtml(chats) {
           }),
           cDivArr = isMobile ? [msgTxt] : [logo,msgTxt],
           continerDiv = Create("div.row", {}, cDivArr),
-          br = Create("br"),
           speakBtn = Create("code.icon.sanatan-symbol", {
             style: {
               marginLeft: '40px'
@@ -245,7 +244,7 @@ export function convertToHtml(chats) {
           deleteBtn = Create("code.icon.sanatan-symbol", {}, "delete", ["click", () => { deleteChat(msgIdx); }]),
           reGenBtn = Create("code.icon.sanatan-symbol", {}, "refresh", ["click", () => regenerateResponse(msgIdx)]),
           editContainer = Create("div.row", {}, [speakBtn, copyBtn, deleteBtn, reGenBtn]),
-          botMessage = Create("div.message.bot-message", {}, [continerDiv, br, editContainer]);
+          botMessage = Create("div.message.bot-message", {}, [continerDiv, editContainer]);
         chatBody.appendChild(botMessage);
       }
     }

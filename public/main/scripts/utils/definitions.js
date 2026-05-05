@@ -1,6 +1,7 @@
 import { state } from "../core/state.js";
 import { Create, getPopup, getSettings } from "../components/elements.js";
 import { btnHov, evListener } from "../core/config.js";
+import { setLocale, getLocale } from "./i18n.js";
 
 /**
  * @param {string} query
@@ -139,8 +140,9 @@ export function initDom() {
   evListener("contextmenu", document, (e) => e.preventDefault());
 
   if (languageSelector) {
+    languageSelector.value = getLocale();
     evListener("change", languageSelector, (e) => {
-      document.documentElement.lang = e.target.value;
+      setLocale(e.target.value);
     });
   }
 

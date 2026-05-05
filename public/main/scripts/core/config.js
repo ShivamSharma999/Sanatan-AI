@@ -1,6 +1,6 @@
 import { state } from "../core/state.js";
 import { languageSelector, chatBody, deepThinkBtn, isPC, fileInput, $, closE, shoW, showNotification, welcomeNameInput } from "../utils/definitions.js";
-
+import { t } from "../utils/i18n.js";
 
 import { getCurrentTimeAndDate } from "../utils/utils.js";
 import { showStep, updateProfileUI } from "./app.js";
@@ -76,7 +76,7 @@ window.onload = function () {
       // For Electron: Use custom authentication flow with sanatanai:// protocol
       const googleLoginBtn = $("#google-login-btn");
       if (googleLoginBtn) {
-        googleLoginBtn.innerHTML = `<span class="google">Sign in with Google</span>`;
+        googleLoginBtn.innerHTML = `<span class="google">${t('googleLogin')}</span>`;
         googleLoginBtn.addEventListener('click', () => {
           initiateElectronGoogleAuth();
         });
@@ -89,7 +89,7 @@ window.onload = function () {
         });
         window.electronAPI.onOAuthError((data) => {
           console.error('OAuth Error:', data.error);
-          showNotification('Authentication failed. Please try again.', 'error');
+          showNotification(t('authenticationFailed'), 'error');
         });
       }
     } else {
@@ -131,7 +131,7 @@ window.onload = function () {
   
   async function handleElectronGoogleAuth(code) {
     try {
-      showNotification("Completing authentication...", "info");
+      showNotification(t('completingAuthentication'), "info");
       
       // Send authorization code to backend for secure token exchange
       const response = await fetch('/auth/google', {
@@ -161,12 +161,12 @@ window.onload = function () {
       
       if (welcomeNameInput) welcomeNameInput.value = data.name;
       
-      showNotification("Logged in as " + data.name, "success");
+      showNotification(t('loggedInAs', { name: data.name }), "success");
       updateProfileUI();
       showStep("customize-step");
     } catch (error) {
       console.error("Electron Google Auth Error:", error);
-      showNotification("Authentication failed. Please try again.", "error");
+      showNotification(t('authenticationFailed'), "error");
     }
   }
   
@@ -181,12 +181,12 @@ window.onload = function () {
   
       if (welcomeNameInput) welcomeNameInput.value = payload.name;
   
-      showNotification("Logged in as " + payload.name, "success");
+      showNotification(t('loggedInAs', { name: payload.name }), "success");
       updateProfileUI();
       showStep("customize-step");
     } catch (error) {
       console.error("Google Login Error:", error);
-      showNotification("Login failed. Please try again.", "error");
+      showNotification(t('loginFailed'), "error");
     }
   }
 

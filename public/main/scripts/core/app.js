@@ -1,5 +1,6 @@
 import "../../icons/load.js";
 
+import { initI18n, t } from "../utils/i18n.js";
 import { Sanatan } from "../core/sanatan.js";
 import typed from "../lib/typed.js";
 import { convertToHtml } from "../utils/particles.js";
@@ -15,6 +16,9 @@ import "../components/memory-manager.js";
 import { Create } from "../components/elements.js";
 import { evListener } from "./config.js";
 
+
+// Ensure internationalization is initialized before rendering UI.
+initI18n();
 
 // Ensure DOM-created UI exists before app logic runs.
 initDom();
@@ -50,17 +54,7 @@ function wireIndexHtmlEvents() {
 }
 
 function onDomReady() {
-  typed([
-    "What should I do when bored?",
-    "Write me a essay..",
-    "What is Programming?",
-    "Tell me about lord Rama..",
-    "Suggest a book to read..",
-    "What is the meaning of life?",
-    "How to manage stress?",
-    "Explain quantum physics",
-    "Give me some healthy recipes",
-  ]);
+  typed(t("samplePrompts"));
 
   init();
   if (state.chatHistory) convertToHtml(state.chatHistory);
@@ -278,7 +272,7 @@ function handleOutgoingMessage() {
   if (state.chatHistory.length === 0) updateSessionTitle(state.userData.message);
   
   if (!state.userData.message) {
-    showNotification("Please write a message..", "error");
+    showNotification(t("pleaseWriteMessage"), "error");
     return;
   }
   messageInput.value = "";
@@ -351,7 +345,7 @@ const allowedExtensions = ["image/png", "image/jpeg", "image/jpg", "image/webp",
 
 function a(b) {
   if (state.userData.files.length > 4) {
-    showNotification("File Limit Exeeded", "error");
+    showNotification(t("fileLimitExceeded"), "error");
     return;
   }
   b.forEach((file) => {
@@ -422,7 +416,7 @@ export async function copyMessage(index, copyButton) {
   try {
     await copy(messageText);
     copyButton.innerText = "done";
-    showNotification("Message Copied", "success");
+    showNotification(t("messageCopied"), "success");
     setTimeout(() => (copyButton.innerText = "content_copy"), 1000);
   } catch (err) {
     console.error("Copy failed", err);
@@ -433,7 +427,7 @@ async function copy(text) {
   try {
     await navigator.clipboard.writeText(text);
   } catch (err) {
-    showAlert("Failed to copy");
+    showAlert(t("failedCopy"));
     throw err;
   }
 }
@@ -517,7 +511,7 @@ async function deleteMessage() {
 
 // Back-compat for settings inline handler (will be wired via JS later).
 window.askToDel = function askToDel() {
-  Sanatan.ask("Are you sure To Delete all Messages?").then(async (response) => {
+  Sanatan.ask(t("deleteAllConfirmation")).then(async (response) => {
     if (response) await deleteMessage();
   });
 };
@@ -586,7 +580,7 @@ evListener("change", nameInput, () => {
 
 evListener("keydown", document.body, (event) => {
   if (event.key === "Delete" && chatBody.innerHTML !== "" && !event.shiftKey) {
-    Sanatan.ask("Are you sure to delete all messages?").then((response) => {
+    Sanatan.ask(t("deleteAllConfirmation")).then((response) => {
       if (response) {
         deleteMessage();
       }
