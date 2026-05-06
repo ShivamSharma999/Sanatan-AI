@@ -180,23 +180,5 @@
 
       gtag("config", "G-06JFXN6E8F");
     </script>
-    
-    <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', async () => {
-      if(!(await navigator.serviceWorker.getRegistration('sanatan-ai-v3') || window.electronAPI)) {
-        navigator.serviceWorker.register('./scripts/components/service-worker.js')
-          .then(reg => {
-            console.log('Service Worker: Registered (Scope: ' + reg.scope + ')');
-            // If there's an waiting worker, skip waiting to activate new version
-            if (reg.waiting) {
-              reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-            }
-          })
-          .catch(err => console.log('Service Worker: Error: ' + err));
-        }
-      });
-    }
-    </script>
 </body>
 </html>

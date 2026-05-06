@@ -1,6 +1,6 @@
 import "../../icons/load.js";
 
-import { initI18n, t } from "../utils/i18n.js";
+import { t, setLocale } from "../utils/i18n.js";
 import { Sanatan } from "../core/sanatan.js";
 import typed from "../lib/typed.js";
 import { convertToHtml } from "../utils/particles.js";
@@ -16,9 +16,6 @@ import "../components/memory-manager.js";
 import { Create } from "../components/elements.js";
 import { evListener } from "./config.js";
 
-
-// Ensure internationalization is initialized before rendering UI.
-initI18n();
 
 // Ensure DOM-created UI exists before app logic runs.
 initDom();
@@ -45,9 +42,7 @@ function wireIndexHtmlEvents() {
 });
 
   // Bhagvat Gita button
-  const gitaBtn = $(
-    'button.action[data-label*="Bhagwat"]'
-  );
+  const gitaBtn = $('.menuBar button.action');
   evListener("click", gitaBtn, () => {
     window.open("https://shivamsharma999.github.io/gita", "_blank");
   });
@@ -91,7 +86,6 @@ export async function loadSession(id) {
   if (await loadSessionData(id)) {
       chatBody.innerHTML = "";
      convertToHtml(state.chatHistory);
-      renderChatList();
   }
 }
 
@@ -229,7 +223,6 @@ function loadChatData() {
     detectTheme();
   }
   messageInput.focus();
-  renderChatList();
 }
 
 export function showStep(stepId) {
@@ -328,6 +321,11 @@ evListener("change", $("#theme-select"), function () {
     detectTheme();
     localStorage.setItem("themeColor", "auto");
   }
+});
+
+evListener("change", languageSelector, function () {
+  setLocale(this.value);
+  window.location.reload();
 });
 
 
@@ -544,14 +542,14 @@ function voiceControl(string) {
 }
 
 evListener("click", $("#file-upload"), () => fileInput.click());
-evListener("input,change", messageInput, () => {
+evListener("input,change,blur,focus", messageInput, () => {
   let isMessage = messageInput.value !== '';
   sendMessage.style.width = sendMessage.style.height = isMessage ? '40px' : '0';
   messageInput.style.height = "auto";
   messageInput.style.height = isMessage ? `${messageInput.scrollHeight}px` : 'auto';
   document.querySelector(".chat-capsule").style.borderRadius =
     !(isMessage) ? "32px" : "15px";
-})
+});
 
 evListener("load", window, () => {
   setTimeout(() => {

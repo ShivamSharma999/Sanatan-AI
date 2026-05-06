@@ -61,6 +61,10 @@
 	scroll-button {
 		bottom: 150px !important;
 	}
+
+	[data-label]::after, [data-label]::before {
+		display: none;
+	}
 }
 
 /* Media query from main.css */

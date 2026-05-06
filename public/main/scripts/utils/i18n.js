@@ -256,3 +256,4 @@ export function initI18n() {
   const locale = savedLocale || (locales[browserLocale] ? browserLocale : defaultLocale);
   setLocale(locale);
 }
+initI18n();
