@@ -24,12 +24,20 @@ if "%buildOrDev%"=="vercel" (
     cmd /c "cd other && node ./main.cjs"
 ) else if "%buildOrDev%"=="build" (
     echo Building the app...
-    npm run publish
+    npm run build
 ) else if "%buildOrDev%"=="dev" (
     echo Running the dev script...
     npm run dev
 ) else if "%buildOrDev%"=="none" (
     echo Skipping build and dev scripts.
+ ) else if "%buildOrDev%"=="publish" (
+    echo Publishing the app...
+    echo deploying to vercel..
+    cmd /c "cd other && node ./main.cjs"
+    cmd /c vercel --prod
+    cmd /c "cd other && node ./main.cjs"
+    echo Deployed, now building and publishing to github...
+    npm run publish
  ) else (
     echo Invalid option.
     echo Skipping by default..

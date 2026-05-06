@@ -14,6 +14,7 @@ config();
 import { fileURLToPath } from 'node:url';
     
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const shouldAutoOpen = isLocal && process.env.SANATAN_NO_OPEN !== "1";
 
 
 const allowedOrigins = new Set(["https://sanatan-ai.vercel.app"]);
@@ -61,7 +62,7 @@ app.use(json({ limit: "50mb" }));
 app.use(cors(corsOptionsDelegate));
 
 app.use(expstatic(join(__dirname, '../public/main'))); // Serve static files from /public/main  
-if (isLocal) {
+if (shouldAutoOpen) {
   open(`http://localhost:${port}`);
 }
 
@@ -363,6 +364,10 @@ app.post("/mail", async (req, res) => {
 app.get("/", (req, res) => {
   const filePath = join(__dirname, '../public/main/index.html');
   res.sendFile(filePath);
+});
+
+app.use((req, res) => {
+  res.status(404).sendFile(join(__dirname, '../public/main/404.html'));
 });
 
 const sendEmail = async (mailDetails) => {

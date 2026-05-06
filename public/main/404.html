@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090706" />
+  <title>Page Not Found | Sanatan AI</title>
+  <link rel="icon" type="image/ico" href="/favicon.ico" />
+  <style>
+    body {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(255, 138, 42, 0.2), transparent 31rem),
+    radial-gradient(circle at 88% 12%, rgba(47, 208, 183, 0.16), transparent 28rem),
+    linear-gradient(145deg, #090706 0%, #16100b 46%, #080a0b 100%);
+    color: #fff8ed;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .not-found-page {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .not-found-shell {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+
+    .not-found-card {
+      width: min(560px, 100%);
+      padding: 42px;
+      text-align: center;
+      border-radius: 24px;
+      background: rgba(15, 12, 10, 0.78);
+      border: 1px solid rgba(255, 229, 190, 0.16);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(24px);
+    }
+
+    .not-found-logo {
+      width: 86px;
+      height: 86px;
+      object-fit: contain;
+      padding: 14px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.07);
+      filter: drop-shadow(0 0 22px rgba(255, 159, 63, 0.35));
+    }
+
+    .not-found-kicker {
+      color: #f2c66d;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .not-found-card h1 {
+      margin: 8px 0 12px;
+      font-size: clamp(2.1rem, 8vw, 4.3rem);
+      line-height: 1;
+    }
+
+    .not-found-copy {
+      color: #bdb4a6;
+      line-height: 1.7;
+      margin: 0 auto 26px;
+      max-width: 430px;
+    }
+
+    .not-found-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .not-found-actions a {
+      min-width: 132px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      color: #fff8ed;
+      text-decoration: none;
+      border: 1px solid rgba(255, 228, 186, 0.14);
+    }
+
+    .not-found-primary {
+      background: linear-gradient(135deg, #ff8a2a, #f2c66d 42%, #2fd0b7);
+      color: #fff !important;
+      box-shadow: 0 16px 40px rgba(255, 138, 42, 0.22);
+    }
+  </style>
+</head>
+
+<body class="not-found-page">
+  <main class="not-found-shell" aria-labelledby="not-found-title">
+    <section class="not-found-card">
+      <img class="not-found-logo" src="/Resources/images/logo.png" alt="Sanatan AI" />
+      <p class="not-found-kicker">This path is quiet.</p>
+      <h1 id="not-found-title">404</h1>
+      <p class="not-found-copy">
+        The page you opened is not available. Return to Sanatan AI and begin
+        a fresh conversation.
+      </p>
+      <div class="not-found-actions">
+        <a class="not-found-primary" href="/">Return Home</a>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>
