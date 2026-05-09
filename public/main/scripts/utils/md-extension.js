@@ -56,7 +56,7 @@ if (typeof markdownit !== 'undefined') {
         if (silent)
             return true;
         const content = state.getLines(startLine, nextLine + 1, state.tShift[startLine], true);
-        const rule = /#\$%([^\n]+)\n\*([\s\S]*?)\n\*([\s\S]*?)\n#\$%/;
+        const rule = /#\$%([^\n]+)\n(\s*?)\*([\s\S]*?)\n(\s*?)\*([\s\S]*?)\n#\$%/;
         const match = rule.exec(content);
         if (match) {
             const token = state.push('geetaBlock', 'div', 0);

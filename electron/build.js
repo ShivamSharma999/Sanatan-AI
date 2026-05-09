@@ -1,8 +1,10 @@
-const { BrowserWindow, app, Menu } = require('electron');
-const path = require('path');
-const { autoUpdater } = require("electron-updater");
-const http = require('http');
-const url = require('url');
+import { BrowserWindow, app, Menu } from 'electron';
+import { join } from 'path';
+import updater from 'electron-updater';
+import { createServer } from 'http';
+import { URL } from 'url';
+
+const { autoUpdater } = updater;
 
 let mainWindow = null;
 let authServer = null;
@@ -10,8 +12,8 @@ let authServerPort = 5612;
 
 function startAuthServer() {
     return new Promise((resolve) => {
-        authServer = http.createServer((req, res) => {
-            const parsedUrl = new url.URL(req.url, `http://localhost:${authServerPort}`);
+        authServer = createServer((req, res) => {
+            const parsedUrl = new URL(req.url, `http://localhost:${authServerPort}`);
             
             if (parsedUrl.pathname === '/auth') {
                 const code = parsedUrl.searchParams.get('code');
@@ -81,13 +83,14 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        icon: path.join(process.cwd(), './favicon.ico'),
+        icon: join(process.cwd(), './favicon.ico'),
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
+            preload: join(import.meta.dirname, 'preload.js'),
             enableRemoteModule: false,
         }
     });
-    mainWindow.loadFile('index.html');
+    console.log(import.meta.dirname);
+    mainWindow.loadFile('./public/main/index.html');
 
     Menu.setApplicationMenu(null);
     autoUpdater.autoDownload = true;

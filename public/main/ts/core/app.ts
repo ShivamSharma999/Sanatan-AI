@@ -13,6 +13,7 @@ import { initDom, menuopen, welcomeContainer, steps, $, chatBody, messageInput, 
 import { showVoiceControls } from "../components/voice-controls.js";
 import { initGestures } from "../utils/gestures.js";
 import "../components/memory-manager.js";
+import { initConversationTools } from "../utils/conversation-tools.js";
 import { Create } from "../components/elements.js";
 import { evListener } from "./config.js";
 
@@ -32,6 +33,7 @@ function bootstrap() {
     icon.href = "Resources/images/logo.png";
   }
   wireIndexHtmlEvents();
+  initConversationTools();
   evListener("DOMContentLoaded", document, onDomReady);
   initGestures();
   manageOnboarding();

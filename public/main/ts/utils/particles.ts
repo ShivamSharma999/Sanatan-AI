@@ -148,6 +148,7 @@ export function convertToHtml(chats) {
   chatBody.innerHTML = "";
 
   if (chats.length === 0) {
+    window.dispatchEvent(new CustomEvent("sanatan:chat-rendered"));
     return {
       botCount: 0,
       userCount: 0,
@@ -256,6 +257,7 @@ export function convertToHtml(chats) {
   mermaid.run({
       nodes: document.querySelectorAll('.mermaid'),
     }).catch(err => console.error('Mermaid rendering failed:', err));
+  window.dispatchEvent(new CustomEvent("sanatan:chat-rendered"));
   
   return {
     botCount,

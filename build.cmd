@@ -17,7 +17,7 @@ if "%commitMsg%"=="" (
     git commit -m "%commitMsg%"
 )
 cmd /c npm run build:ts
-set /p buildOrDev=Do you want to build the app or run the dev script? (vercel/build/dev/none):
+set /p buildOrDev=Do you want to build the app or run the dev script? (vercel/build/dev/publish/none):
 if "%buildOrDev%"=="vercel" (
     echo deploying to vercel..
     cmd /c "cd other && node ./main.cjs"

@@ -9,12 +9,58 @@ export function getPopup() {
     if (document.querySelector('div.chatbot-popup'))
         return;
     const userName = localStorage.getItem('Name') || t('guestName');
-    const h3 = Create("h3", {}, `${t('greetingHello')} ${userName}`), h2 = Create("h2.logoTxt.animated-gradient-text.fast-transition", {}, t("searchExplore")), wrapper = Create("div.imgWrapper"), home = Create("div.home", {}, [wrapper, h3, h2]), newChat = Create("button.new-chat-btn.center-flex", {}, [Create("span", {}, t("newChat")), Create("code.sanatan-symbol", {}, "edit_square")]);
+    const h3 = Create("h3", {}, `${t('greetingHello')} ${userName}`), h2 = Create("h2.logoTxt.animated-gradient-text.fast-transition", {}, t("searchExplore")), wrapper = Create("div.imgWrapper"), home = Create("div.home", {}, [wrapper, h3, h2]);
     Create("img", {
         src: "/Resources/images/logo.png",
-    }, [], [], wrapper),
-        newChat.onclick = createNewChat;
+    }, [], [], wrapper);
+    const closeOptionsMenu = () => document.getElementById("chat-options-menu")?.classList.remove("show");
+    const runMenuAction = (action) => {
+        closeOptionsMenu();
+        action();
+    };
+    const searchMenuItem = Create("button.chat-options-item", {}, [
+        Create("span.sanatan-symbol", {}, "search"),
+        Create("span", {}, "Search in chat")
+    ], ["click", () => runMenuAction(() => window.openChatSearch ? window.openChatSearch() : null)]);
+    const newChatMenuItem = Create("button.chat-options-item", {}, [
+        Create("span.sanatan-symbol", {}, "edit_square"),
+        Create("span", {}, "New chat")
+    ], ["click", () => runMenuAction(createNewChat)]);
+    const exportMenuItem = Create("button.chat-options-item", {}, [
+        Create("span.sanatan-symbol", {}, "download"),
+        Create("span", {}, "Export chat")
+    ]);
+    const exportFormats = Create("div.chat-export-formats", {}, [
+        Create("button", { type: "button" }, "PDF", ["click", () => runMenuAction(() => window.exportActiveConversation ? window.exportActiveConversation("pdf") : null)]),
+        Create("button", { type: "button" }, "MD", ["click", () => runMenuAction(() => window.exportActiveConversation ? window.exportActiveConversation("markdown") : null)]),
+        Create("button", { type: "button" }, "JSON", ["click", () => runMenuAction(() => window.exportActiveConversation ? window.exportActiveConversation("json") : null)])
+    ]);
+    const exportGroup = Create("div.chat-options-export", {}, [exportMenuItem, exportFormats]);
+    const deleteMenuItem = Create("button.chat-options-item.danger", {}, [
+        Create("span.sanatan-symbol", {}, "delete"),
+        Create("span", {}, "Delete chat")
+    ], ["click", () => runMenuAction(() => {
+            if (window.deleteSession && window.state.activeSessionId)
+                window.deleteSession(new Event("click"), window.state.activeSessionId);
+        })]);
+    const optionsMenu = Create("div.chat-options-menu.glass-dark", { id: "chat-options-menu" }, [searchMenuItem, newChatMenuItem, exportGroup, deleteMenuItem], ["click", (event) => event.stopPropagation()]);
+    const optionsBtn = Create("button.chat-options-btn.sanatan-symbol", { type: "button", id: "chat-options-btn" }, "more_vert", ["click", (event) => {
+            event.stopPropagation();
+            optionsMenu.classList.toggle("show");
+        }]);
+    document.addEventListener("click", closeOptionsMenu);
     // --- Chat Body ---
+    const searchInput = Create("input.chat-search-input", {
+        id: "chat-search-input",
+        type: "search",
+        placeholder: "Search this chat",
+        autocomplete: "off"
+    }, "", ["input", function () { window.runChatSearch ? window.runChatSearch(this.value) : null; }]);
+    const searchPrev = Create("button.chat-search-btn.sanatan-symbol", { type: "button", "data-label": "Previous match" }, "keyboard_arrow_up", ["click", () => window.moveChatSearch ? window.moveChatSearch(-1) : null]);
+    const searchNext = Create("button.chat-search-btn.sanatan-symbol", { type: "button", "data-label": "Next match" }, "keyboard_arrow_down", ["click", () => window.moveChatSearch ? window.moveChatSearch(1) : null]);
+    const searchClear = Create("button.chat-search-btn.sanatan-symbol", { type: "button", "data-label": "Clear search" }, "close", ["click", () => window.clearChatSearch ? window.clearChatSearch() : null]);
+    const searchCounter = Create("span.chat-search-counter", { id: "chat-search-counter", "aria-live": "polite" });
+    const searchBar = Create("div.chat-search-bar.glass-panel", { id: "chat-search-bar" }, [searchInput, searchCounter, searchPrev, searchNext, searchClear]);
     const chatBody = Create("div.chat-body.col");
     // Row 1: File Preview
     const filePreview = Create("div.file-preview-mini");
@@ -64,7 +110,7 @@ export function getPopup() {
     const scrollBtn = document.createElement("scroll-button");
     scrollBtn.onclick = scrollC; // Custom element property, keeping as is
     scrollBtn.appendChild(Create("lord-icon", { src: "icons/down.json", target: "scroll-button", style: "width: 24px; height: 24px;", colors: "primary:#ffffff", trigger: "hover" }));
-    const popup = Create("div.chatbot-popup", {}, [newChat, home, chatBody, chatFooter, aboutBtn, scrollBtn]);
+    const popup = Create("div.chatbot-popup", {}, [optionsBtn, optionsMenu, home, searchBar, chatBody, chatFooter, aboutBtn, scrollBtn]);
     document.body.insertBefore(popup, document.body.firstChild);
     return [popup, chatBody, messageInput, sendMessage, fileInput, filePreview, deepThinkBtn, googleBtn];
 }
@@ -109,6 +155,32 @@ function getSettings() {
     });
     const langSelect = Create("select.modern-select", { id: "languageSelector" }, langOpts);
     const langItem = Create("div.setting-item.neomorphic", {}, [langLabel, langSelect]);
+    // Conversation Export
+    const exportLabel = Create("label", { for: "conversation-export-format" }, [
+        Create("span.sanatan-symbol", {}, "download"),
+        Create("code", {}, " Export Chat ")
+    ]);
+    const exportSelect = Create("select.modern-select", { id: "conversation-export-format" }, [
+        Create("option", { value: "pdf" }, "PDF"),
+        Create("option", { value: "markdown" }, "Markdown"),
+        Create("option", { value: "json" }, "JSON")
+    ]);
+    const exportBtn = Create("button.btn-gradient.conversation-tool-btn", { type: "button" }, "Export", ["click", () => {
+            const format = document.getElementById("conversation-export-format")?.value;
+            if (window.exportActiveConversation)
+                window.exportActiveConversation(format);
+        }]);
+    const exportItem = Create("div.setting-item.neomorphic", {}, [exportLabel, exportSelect, exportBtn]);
+    // Conversation Import
+    const importLabel = Create("label", { for: "conversation-import-input" }, [
+        Create("span.sanatan-symbol", {}, "upload_file"),
+        Create("code", {}, " Import Chat JSON ")
+    ]);
+    const importInput = Create("input", { type: "file", id: "conversation-import-input", accept: "application/json,.json" }, "", ["change", function () {
+            if (window.importConversationJson)
+                window.importConversationJson(this.files?.[0]);
+        }]);
+    const importItem = Create("div.setting-item.neomorphic", {}, [importLabel, importInput]);
     // Delete Button
     const delBtn = Create("button.center-flex.btn-gradient", { title: t("deleteAllMessagesTooltip"), id: "close-chatbot", "data-i18n-label": "deleteAllMessagesTooltip", "aria-label": t("deleteAllMessagesTooltip") }, [
         Create("code", {}, [Create("lord-icon", { src: "icons/trash.json", target: "#close-chatbot", trigger: "hover" })]),
@@ -133,7 +205,7 @@ function getSettings() {
                 window.showMemoryManager();
         }]);
     const memoryBtnComp = Create("div.setting-item.neomorphic", {}, [memBtn]);
-    const body = Create("div.settings-body", {}, [nameItem, themeItem, langItem, delItem, memoryBtnComp, advancedDiv]);
+    const body = Create("div.settings-body", {}, [nameItem, themeItem, langItem, exportItem, importItem, delItem, memoryBtnComp, advancedDiv]);
     const settingsPopup = Create("div.glass-dark", { id: "settings-popup" }, [header, body]);
     const fullScreen = Create("full-screen.settings", {}, [settingsPopup]);
     document.body.appendChild(fullScreen);

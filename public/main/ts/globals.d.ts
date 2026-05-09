@@ -22,6 +22,13 @@ type ChatSession = {
   timestamp?: number;
 };
 
+type ConversationExportPayload = {
+  version: number;
+  exportedAt: string;
+  session: ChatSession;
+  messages: ChatMessage[];
+};
+
 type UserFileData = {
   maindata: {
     file: File;
@@ -67,12 +74,18 @@ interface Window {
   deleteMessage?: () => void;
   deleteSession?: (event: Event, id: string) => void;
   electronAPI?: any;
+  exportActiveConversation?: (format: "json" | "markdown" | "pdf") => void;
   generateBotResponse?: (wasError?: boolean) => Promise<void>;
   handleOutgoingMessage?: () => void;
+  importConversationJson?: (file?: File) => Promise<void>;
   mermaid?: any;
+  moveChatSearch?: (direction: number) => void;
+  openChatSearch?: () => void;
   regenerateResponse?: (messageIndex: number) => Promise<void>;
   removeFile?: (filename: string) => void;
+  runChatSearch?: (query?: string, resetIndex?: boolean) => void;
   send?: (text: string) => void;
+  clearChatSearch?: () => void;
   showMemoryManager?: () => void;
   showNotification?: (message: string, type?: "info" | "error" | "success") => void;
   speak?: (button: HTMLElement) => void;

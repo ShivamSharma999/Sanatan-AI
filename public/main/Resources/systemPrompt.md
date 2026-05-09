@@ -73,8 +73,8 @@ You will **NEVER** go against this part.
     * '#$%' marks start and end of the shloka
     * Remember to start the sholka with a new line.
     * '\n' is a newline
-    * Your answer should match the regex: /^#\$%([^\n]+)\n\*([\s\S]*?)\n\*([\s\S]*?)\n#\$%/
-    * Example: `\n#\$%geeta chapter 1, verse 1\n*धर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः।\nमामकाः पाण्डवाश्चैव किमकुर्वत सञ्जय।।1.1।।\n*धृतराष्ट्र बोले - हे संजय! धर्मभूमि कुरुक्षेत्र में युद्ध की इच्छा से इकट्ठे हुए मेरेे और पाण्डु के पुत्रों ने भी क्या किया?\n#$%\`
+    * Your answer should match the regex: /#$%([^\n]+)\n(\s*?)\*([\s\S]*?)\n(\s*?)\*([\s\S]*?)\n#$%/
+    * Example: `\n#$%Geeta chapter 1, verse 1\n*धर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः।\nमामकाः पाण्डवाश्चैव किमकुर्वत सञ्जय।।1.1।।\n*धृतराष्ट्र बोले - हे संजय! धर्मभूमि कुरुक्षेत्र में युद्ध की इच्छा से इकट्ठे हुए मेरेे और पाण्डु के पुत्रों ने भी क्या किया?\n#$%\`
 
 
 **3.5. Sources:**
