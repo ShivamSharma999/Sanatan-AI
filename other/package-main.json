@@ -11,9 +11,10 @@
     "dev": "node ./api/index.js",
     "start": "node ./api/index.js",
     "build:app": "build",
+    "build:ts": "cd public/main && tsc",
     "test": "electron .",
-    "build": "electron-builder",
-    "publish": "electron-builder --publish always"
+    "build": "npm run build:ts && electron-builder",
+    "publish": "npm run build:ts && electron-builder --publish always"
   },
   "dependencies": {
     "@google/genai": "^1.15.0",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "electron": "^40.6.1",
-    "electron-builder": "^26.8.1"
+    "electron-builder": "^26.8.1",
+    "typescript": "^6.0.3"
   }
 }

@@ -1,11 +1,11 @@
 {
   "name": "sanatan-ai",
-  "version": "2.2.9",
+  "version": "2.3.0",
   "description": "Sanatan AI, a powerful AI powered assistant",
   "main": "electron/build.js",
   "type": "module",
   "author": "Shivam Sharma",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": "https://github.com/ShivamSharma999/Sanatan-AI",
   "scripts": {
     "dev": "node ./api/index.js",
@@ -13,8 +13,8 @@
     "build:app": "build",
     "build:ts": "cd public/main && tsc",
     "test": "electron .",
-    "build": "npm run build:ts && electron-builder",
-    "publish": "npm run build:ts && electron-builder --publish always"
+    "build": "electron-builder",
+    "publish": "electron-builder --publish always"
   },
   "dependencies": {
     "@google/genai": "^1.15.0",

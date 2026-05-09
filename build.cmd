@@ -4,7 +4,7 @@ cls
 color 09
 echo ## Sanatan AI Builder ##
 echo Write 'x' in commit message to skip commit.
-set /p commitMsg=Please enter a commit message: 
+set /p commitMsg=Please enter a commit message (leave blank to auto-update and commit): 
 if "%commitMsg%"=="" (
     cmd /c "cd other && node ./update.cjs"
     git add .
