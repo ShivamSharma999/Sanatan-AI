@@ -13,14 +13,12 @@ function startAuthServer() {
         authServer = http.createServer((req, res) => {
             const parsedUrl = new url.URL(req.url, `http://localhost:${authServerPort}`);
             
-            // Handle OAuth callback: /auth?code=...&state=...
             if (parsedUrl.pathname === '/auth') {
                 const code = parsedUrl.searchParams.get('code');
                 const state = parsedUrl.searchParams.get('state');
                 const error = parsedUrl.searchParams.get('error');
                 const errorDescription = parsedUrl.searchParams.get('error_description');
                 
-                // Send success response to browser
                 res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
                 if (code) {
                     res.end(`
@@ -51,7 +49,6 @@ function startAuthServer() {
                     `);
                 }
                 
-                // Send code to main window
                 if (mainWindow) {
                     if (code) {
                         mainWindow.webContents.send('oauth-code', { code, state });

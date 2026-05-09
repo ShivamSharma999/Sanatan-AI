@@ -1,26 +1,18 @@
-
-/**
- * Add event Listeners to Elements
- * @param { string } evs 
- * @param { Element } to
- * @param { (e: Event) => void } func
- */
 export function evListener(evs, to, func) {
-  try {
-    const events = evs.split(',');
-    events.forEach(ev => to.addEventListener(ev, func));
-  }
-  catch (e) {
-    console.log(e)
-  }
+    try {
+        const events = evs.split(',');
+        events.forEach(ev => to.addEventListener(ev, func));
+    }
+    catch (e) {
+        console.log(e);
+    }
 }
-
 /**
  * ## Create HTML elements in javascript
  * Works some as `document.createElement` but in a shorter and efficient way.
- * 
+ *
  * Example:
- * 
+ *
  * ```javascript
  * // No.1 - using the classic document.createElement method
  * const div = document.createElement("div");
@@ -30,37 +22,40 @@ export function evListener(evs, to, func) {
  * div.addEventListener("click", myFn);
  * div.addEventListener("mousemove", myFn2);
  * divParent.appendChild(div);
- * 
+ *
  * // No.2 - using the modern Create function
  * const div = Create("div.mydiv", {hidden: true}, Create("p"), [["click", myFn],["mousemove", myFn2]], divParent) // Does same as all work done above
  * ```
- * @param { keyof HTMLElementTagNameMap } query - The name of selector e.g. `div.main` or `a#hero`
- * @param { NamedNodeMap } props - The list of properties to be applied to element
- * @param { Element[] | Element | string } childs - Child Nodes or text in element
- * @param { [string, (e: Event) => void] | Array<[string, (e: Event) => void]> } ev - An array of eventListeners to the element, It could be in format `[eventName, listener]` or `[[event1name, listener1], [event2name, listener2]..]`
- * @param { Element } parentElement - The parent Element of current node, will be used as `parentElement.appendChild(element)`
- * @returns { HTMLElementTagNameMap[keyof HTMLElementTagNameMap] } The element made
+ * @param query - The name of selector e.g. `div.main` or `a#hero`
+ * @param props - The list of properties to be applied to element
+ * @param childs - Child Nodes or text in element
+ * @param ev - An array of eventListeners to the element, It could be in format `[eventName, listener]` or `[[event1name, listener1], [event2name, listener2]..]`
+ * @param parentElement - The parent Element of current node, will be used as `parentElement.appendChild(element)`
+ * @returns The element made
  */
-export default function Create(query, props = {}, childs = [], ev, parentElement) {
-    let [elem, classes, id] = _Create(query)
+export default function Create(query, props = {}, childs = "", ev, parentElement) {
+    let [elem, classes, id] = _Create(query);
     let element = document.createElement(elem);
-
     // Support text node
-    if (childs instanceof Element) element.appendChild(childs);
+    if (childs instanceof Element)
+        element.appendChild(childs);
     else if (childs instanceof Array) {
         childs.forEach(child => {
-        if (typeof child === 'string') element.appendChild(document.createTextNode(child));
-        else element.appendChild(child);
-    })}
-    else {
-        if (childs.includes("<")) element.innerHTML = childs;
-        else element.textContent = childs;
+            if (typeof child === 'string')
+                element.appendChild(document.createTextNode(child));
+            else
+                element.appendChild(child);
+        });
     }
-    
-
+    else if (typeof childs === "string") {
+        if (childs.includes("<"))
+            element.innerHTML = childs;
+        else
+            element.textContent = childs;
+    }
     classes.forEach(c => element.classList.add(c));
-    if (id) element.id = id;
-
+    if (id)
+        element.id = id;
     const propNames = Object.keys(props);
     for (let i = 0; i < propNames.length; i++) {
         if (propNames[i] == "style" && typeof props[propNames[i]] === "object") {
@@ -69,37 +64,26 @@ export default function Create(query, props = {}, childs = [], ev, parentElement
                 element.style[prop] = props[propNames[i]][prop];
             });
         }
-        else element.setAttribute(propNames[i], props[propNames[i]]);
+        else
+            element.setAttribute(propNames[i], props[propNames[i]]);
     }
     if (ev && ev.length === 2 && typeof ev[0] != "object") {
         evListener(ev[0], element, ev[1]);
     }
     else if (ev && typeof ev[0] == "object") {
         ev.forEach(event => {
-            evListener(event[0], element, ev[1]);
-        })
-    } else if(ev && !(ev.length == 0)) console.error("Please use a valid format for adding event listeners");
-
+            evListener(event[0], element, event[1]);
+        });
+    }
+    else if (ev && !(ev.length == 0))
+        console.error("Please use a valid format for adding event listeners");
     if (parentElement) {
-        parentElement.appendChild(element)
+        parentElement.appendChild(element);
     }
     return element;
 }
-
-/**
- * 
- * @param {string} name 
- */
 function _Create(name) {
-    let nameReg = /(.+?)[#.]/,
-        classReg = /\.([^#.]+)/,
-        idReg = /\#([^#.]+)/,
-        isCheck = /[#.]/,
-        classes = [],
-        ids = [],
-        elem = "",
-        stte = name;
-
+    let nameReg = /(.+?)[#.]/, classReg = /\.([^#.]+)/, idReg = /\#([^#.]+)/, isCheck = /[#.]/, classes = [], ids = [], elem = "", stte = name;
     if (name.match(isCheck)) {
         elem = stte.match(nameReg)[1];
         stte.replace(elem, '');
@@ -113,7 +97,8 @@ function _Create(name) {
             ids.push(id);
             stte = stte.replace('#' + id, '');
         }
-        return [elem, [...classes], ids.join(" ")]
+        return [elem, [...classes], ids.join(" ")];
     }
-    else return [name, [], ""]
+    else
+        return [name, [], ""];
 }

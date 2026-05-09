@@ -1,4 +1,4 @@
-import katex from '../katex.mjs';
+import katex from '../katex.js';
 /*
  Katex Library.
  This library belongs to katex team but is kept and edited to meet requirements of Sanatan AI

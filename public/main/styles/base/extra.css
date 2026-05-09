@@ -73,7 +73,7 @@ textarea:disabled {
     animation: fadeIn 0.5s ease-in-out;
 }
 
-.welcome .imgWarpper {
+.imgWrapper {
     padding: 35px;
     width: 180px;
     height: 180px;
@@ -84,7 +84,7 @@ textarea:disabled {
     transition: transform 0.5s ease;
 }
 
-.welcome .imgWarpper:hover {
+.imgWrapper:hover {
     transform: scale(1.05);
 }
 

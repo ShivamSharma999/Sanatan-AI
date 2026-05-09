@@ -115,7 +115,7 @@ body {
   display: none;
 }
 
-.imgWarpper {
+.imgWrapper {
   background: var(--secondary-color);
   animation: fromRight 2s ease, float 6s ease-in-out infinite;
   overflow: hidden;
@@ -123,7 +123,7 @@ body {
   z-index: 2;
 }
 
-.imgWarpper img {
+.imgWrapper img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -208,24 +208,14 @@ body {
 }
 
 
-.logoImg1 {
+.logoImg {
   width: 120px;
   height: 120px;
   transition: transform 0.5s ease;
 }
 
-.logoImg1:hover {
+.logoImg:hover {
   transform: scale(1.05);
-}
-
-.logoWarpper {
-  margin-top: 10px;
-  background: var(--secondary-color);
-  border-radius: 50%;
-  width: 150px;
-  height: 140px;
-  animation: fromRight 2s ease;
-  box-shadow: var(--card-shadow);
 }
 
 .new-chat-btn {
@@ -255,7 +245,7 @@ body {
   align-content: center;
   text-align: center;
   width: 100%;
-  height: 100%;
+  height: 70%;
 }
 
 .chat-body {
@@ -634,8 +624,7 @@ body {
   margin: 0 0 30% 0;
 }
 
-.hide-suggestion .logoTxt,
-.hide-suggestion .logoWarpper {
+.hide-suggestion .logoTxt {
   display: none;
 }
 
@@ -745,7 +734,7 @@ img {
 .settings-header button,
 .del,
 .chat-controls button,
-.imgWarpper,
+.imgWrapper,
 .error-icon,
 .icon {
   display: flex;

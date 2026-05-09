@@ -236,7 +236,7 @@
             });
             const data = await res.json();
             if (data.success) {
-                authToken = password; // Should use token in real app, but using password as naive token per plan
+                authToken = password;
                 localStorage.setItem("admin_token", password);
                 document.getElementById("login-screen").style.display = "none";
                 loadUsers();

@@ -6,3 +6,4 @@ markdown-it
 other
 build.cmd
 electron
+**/ts/**
